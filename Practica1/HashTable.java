@@ -58,4 +58,17 @@ public class HashTable {
         return (double) cantidadElementos / tamano;
     }
 
+
+    public String imprimirTabla(){
+        System.out.println(" ---- TABLA HASH PRO -----");
+        for(int i = 0; i < 7; i++){
+            System.out.print(i + " -> ");
+            LinkedList<Nodo<?>> lista = htable[i];
+            for(Nodo<?> n : lista){
+            System.out.print(Nodo.toString + " -> ");
+            }
+        System.out.println();
+        }
+    }
+
 }
