@@ -2,23 +2,28 @@ import java.util.LinkedList;
 
 public class HashTable {
 
-    int tamano = 7;
-    LinkedList<Nodo<?>> [] htabla = (LinkedList<Nodo<?>>) new LinkedList[tamano];
+    private int tamano = 7;
+    private LinkedList<Nodo<?>> [] htabla;
 
     public HashTable(int tamano) {
 	this.tamano = tamano;
 	
-	this.LinkedList<Nodo<?>> [] htable = htable;
-	for(int i = 0; i<htable.length; i++) {
-	    htable[i] = new LinkedList<>();
+	this.htabla = (LinkedList<Nodo<?>> []) new Linkedlist<>();
+	
+	for(int i = 0; i < htable.length; i++) {
+	    htabla[i] = new LinkedList<>();
 	}
     }
 
-    public int hashFunction(int k) {
+    public int hashFuncion(int k) {
 	return (k%7);
     }
 
-    public void insertar(int key, V value) {
-	htable[hashFunction(k)].add(new Nodo<>(k, value));
+    public void insertar(Nodo<> nodo) {
+	if(htabla.buscar() == false){
+	    htable[hashFuncion(nodo.obtenerLlave())].add(nodo);
+	}
     }
+
+    
 }
