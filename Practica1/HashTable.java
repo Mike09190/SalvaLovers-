@@ -19,21 +19,22 @@ public class HashTable {
 	return (k%7);
     }
 
-    public void insertar(Nodo<> nodo) {
-	if(htabla.buscar() == false){
+    public void insertar(Nodo<?> nodo) {
+	if(busqueda(nodo.obtenerLlave() == false) {
 	    htable[hashFuncion(nodo.obtenerLlave())].add(nodo);
 	}
     }
-        public boolean busqueda(int key){
-       int indice = hashFunction(key); 
-       LinkedList<Nodo<?>> listaBuscar = htable[indice];
-
-       for(Nodo<V> v : listaBuscar){
-            if(v.obtenerLlave == key){
+	
+    public boolean busqueda(int key){
+	int indice = hashFunction(key); 
+	LinkedList<Nodo<?>> listaBuscar = htable[indice];
+	
+	for(Nodo<V> v : listaBuscar){
+            if(v.obtenerLlave() == key){
                 return true;
             }
             return false;
-       }    
+	}    
     }
     public boolean eliminar(int key){
         int indice = hashFunction(key);
