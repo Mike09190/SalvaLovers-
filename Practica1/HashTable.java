@@ -25,6 +25,9 @@ public class HashTable {
         if (busqueda(nodo.obtenerLlave()) == false) {
             htable[hashFuncion(nodo.obtenerLlave())].add(nodo);
             cantidadElementos++;
+        } else {
+            eliminar(nodo.obtenerLlave());
+            htable[hashFuncion(nodo.obtenerLlave())].add(nodo);
         }
     }
 
