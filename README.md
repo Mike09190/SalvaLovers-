@@ -10,7 +10,7 @@ Como todos vamos a estar metiendo mano directo en la rama `main`, hay que llevar
 
 1. **Hagan `pull` antes de empezar:** Siempre que abran la terminal para ponerse a programar, bájense lo último que hayan subido los demás.
 2. **Hagan `pull` antes de subir:** No hagan `push` a lo loco sin haber hecho `pull` primero, si no Git les va a rebotar los cambios.
-3. **No hacerle caso a los comentarios del Furroide a la hora de hacer su programa porque seguro está mal. En caso de que te ataque lanzarle queso
+3. No hacerle caso a los comentarios del Furroide a la hora de hacer su programa porque seguro está mal. En caso de que te ataque lanzarle queso
 
 ---
 
