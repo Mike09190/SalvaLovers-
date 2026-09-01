@@ -2,11 +2,13 @@ import java.util.LinkedList;
 
 public class HashTable {
 
+    private int cantidadElementos;
     private int tamano = 7;
     private LinkedList<Nodo<?>> [] htabla;
 
     public HashTable(int tamano) {
 	this.tamano = tamano;
+    this.cantidadElementos = 0;
 	
 	this.htabla = (LinkedList<Nodo<?>> []) new Linkedlist<>();
 	
@@ -44,6 +46,10 @@ public class HashTable {
             return true;
         }
         return false;
+    }
+
+    public double factorCarga(){
+        return (double) cantidadElementos / tamano;
     }
     
 }
