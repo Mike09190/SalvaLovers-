@@ -22,7 +22,7 @@ public class HashTable {
     }
 
     public void insertar(Nodo<?> nodo) {
-	if(busqueda(nodo.obtenerLlave() == false) {
+	if(busqueda(nodo.obtenerLlave()) == false) {
 	    htable[hashFuncion(nodo.obtenerLlave())].add(nodo);
 	}
     }
