@@ -10,9 +10,9 @@ public class HashTable {
         this.tamano = tamano;
         this.cantidadElementos = 0;
 
-        this.htabla = (LinkedList<Nodo<?>>[]) new Linkedlist<>();
+        this.htabla = (LinkedList<Nodo<?>>[]) new LinkedList[tamano];
 
-        for (int i = 0; i < htable.length; i++) {
+        for (int i = 0; i < htabla.length; i++) {
             htabla[i] = new LinkedList<>();
         }
     }
@@ -23,30 +23,30 @@ public class HashTable {
 
     public void insertar(Nodo<?> nodo) {
         if (busqueda(nodo.obtenerLlave()) == false) {
-            htable[hashFuncion(nodo.obtenerLlave())].add(nodo);
+            htabla[hashFuncion(nodo.obtenerLlave())].add(nodo);
             cantidadElementos++;
         } else {
             eliminar(nodo.obtenerLlave());
-            htable[hashFuncion(nodo.obtenerLlave())].add(nodo);
+            htabla[hashFuncion(nodo.obtenerLlave())].add(nodo);
         }
     }
 
     public boolean busqueda(int key) {
-        int indice = hashFunction(key);
-        LinkedList<Nodo<?>> listaBuscar = htable[indice];
+        int indice = hashFuncion(key);
+        LinkedList<Nodo<?>> listaBuscar = htabla[indice];
 
-        for (Nodo<V> v : listaBuscar) {
+        for (Nodo<?> v : listaBuscar) {
             if (v.obtenerLlave() == key) {
                 return true;
             }
-            return false;
         }
+        return false;
     }
 
     public boolean eliminar(int key) {
-        int indice = hashFunction(key);
+        int indice = hashFuncion(key);
         if (busqueda(key)) {
-            LinkedList<Nodo<?>> listaEliminar = htable[indice];
+            LinkedList<Nodo<?>> listaEliminar = htabla[indice];
             listaEliminar.remove(key);
             cantidadElementos--;
             return true;
@@ -58,17 +58,15 @@ public class HashTable {
         return (double) cantidadElementos / tamano;
     }
 
-
-    public String imprimirTabla(){
+    public void imprimirTabla() {
         System.out.println(" ---- TABLA HASH PRO -----");
-        for(int i = 0; i < 7; i++){
+        for (int i = 0; i < 7; i++) {
             System.out.print(i + " -> ");
-            LinkedList<Nodo<?>> lista = htable[i];
-            for(Nodo<?> n : lista){
-            System.out.print(Nodo.toString + " -> ");
+            LinkedList<Nodo<?>> lista = htabla[i];
+            for (Nodo<?> n : lista) {
+                System.out.print(n.toString() + " -> ");
             }
-        System.out.println();
+            System.out.println();
         }
     }
-
 }
