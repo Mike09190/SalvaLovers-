@@ -28,6 +28,7 @@ public class HashTable {
         } else {
             eliminar(nodo.obtenerLlave());
             htabla[hashFuncion(nodo.obtenerLlave())].add(nodo);
+
         }
     }
 
@@ -47,9 +48,13 @@ public class HashTable {
         int indice = hashFuncion(key);
         if (busqueda(key)) {
             LinkedList<Nodo<?>> listaEliminar = htabla[indice];
-            listaEliminar.remove(key);
-            cantidadElementos--;
-            return true;
+            for (Nodo<?> v : listaEliminar) {
+                if (v.obtenerLlave() == key) {
+                    listaEliminar.remove(v);
+                    cantidadElementos--;
+                    return true;
+                }
+            }
         }
         return false;
     }
