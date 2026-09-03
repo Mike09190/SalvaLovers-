@@ -21,6 +21,7 @@ public class Interfaz {
                 sc.nextLine();
             }
         }
+        sc.nextLine();  
         System.out.println("Ingresa el elemento a guardar: ");
         String valorAGuardar = sc.nextLine();
         h.insertar(key, valorAGuardar); //Insertamos primer elemento
@@ -35,17 +36,35 @@ public class Interfaz {
             eleccion = sc.next().charAt(0);
 
                 switch (eleccion) {
-                    case '1': //Insertar elementos
-                        sc.nextLine();
-                        System.out.println("Ingresa la llave del elemento");
-                        key = sc.nextInt();
-                        System.out.println("Ingresa el elemento a guardar: ");
-                        valorAGuardar = sc.nextLine();
-                        h.insertar(key, valorAGuardar);
-                        break;
+                    case '1': // Insertar elementos
+                    System.out.println("Ingresa la llave del elemento a guardar: ");
+                    while (true) {
+                        try {
+                            key = sc.nextInt();
+                            sc.nextLine(); // Limpia el buffer
+                            break;
+                        } catch (Exception e) {
+                            System.out.println("ingresa una llave valida");
+                            sc.nextLine();
+                        }
+                    }
+                    System.out.println("Ingresa el elemento a guardar: ");
+                    valorAGuardar = sc.nextLine();
+                    h.insertar(key, valorAGuardar);
+                    break;
                     case '2': //Buscar elementos
+                        int llave  = 0;
                         System.out.println("Ingresa la llave del elemento a buscar:");
-                        int llave = sc.nextInt();
+                        while (true) {
+                            try {
+                                llave = sc.nextInt();
+                                sc.nextLine(); // Limpia el buffer
+                                break;
+                            } catch (Exception e) {
+                            System.out.println("ingresa una llave valida");
+                            sc.nextLine();
+                            }
+                        }
                         String busqueda = h.busqueda(llave);
                         if (busqueda != null) {
                             System.out.println("El elemento con la llave " + llave + " es: " + busqueda);
@@ -55,8 +74,18 @@ public class Interfaz {
                         break;
                     case '3': //Eliminar elementos
                         System.out.println("Ingresa la llave del elemento a eliminar:");
-                        int cont = sc.nextInt();
-                        if (h.eliminar(cont)) {
+                        while (true) {
+                            try {
+                                key = sc.nextInt();
+                                sc.nextLine(); // Limpia el buffer
+                                break;
+                            } catch (Exception e) {
+                            System.out.println("ingresa una llave valida");
+                            sc.nextLine();
+                            }
+                        }
+
+                        if (h.eliminar(key)) {
                             System.out.println("El elemento ha sido eliminado de la tabla ");
                         } else {
                             System.out.println("El elemento a eliminar NO se encuentra en la tabla ");
