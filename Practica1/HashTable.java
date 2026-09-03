@@ -85,12 +85,16 @@ public class HashTable<V> {
         }
         return null;
     }
-
+    /**
+     * Método de eliminar. Al pasar una llave el programa borra el elemento asociado
+     * @param key
+     * @return true en caso de encontrarlo y eliminarlo caso contrario False
+     */
     public boolean eliminar(int key) {
         int indice = hashFuncion(key);
         if(existeElemento(key)) {
-            LinkedList<Nodo<?>> listaEliminar = htabla[indice];
-            for (Nodo<?> v : listaEliminar) {
+            LinkedList<Nodo<V>> listaEliminar = htabla.get(indice);
+            for (Nodo<V> v : listaEliminar) {
                 if (v.obtenerLlave() == key) {
                     listaEliminar.remove(v);
                     cantidadElementos--;
@@ -100,17 +104,22 @@ public class HashTable<V> {
         }
         return false;
     }
-
+    /**
+     * Método que calcula el factor de carga de la tabla hash
+     * @return double factor de carga
+     */
     public double factorCarga() {
         return (double) cantidadElementos / tamano;
     }
-
+    /**
+    * Método que imprime la tabla hash
+    */
     public void imprimirTabla() {
         System.out.println(" ---- TABLA HASH PRO -----");
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < tamano; i++) {
             System.out.print(i + " -> ");
-            LinkedList<Nodo<?>> lista = htabla[i];
-            for (Nodo<?> n : lista) {
+            LinkedList<Nodo<V>> lista = htabla.get(i);
+            for (Nodo<V> n : lista) {
                 System.out.print(n.toString() + " -> ");
             }
             System.out.println();
