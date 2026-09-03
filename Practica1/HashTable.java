@@ -21,7 +21,7 @@ public class HashTable<V> {
 
         this.htabla = new ArrayList<>(tamano);
 
-        for (int i = 0; i < capacidad; i++) {
+        for (int i = 0; i < tamano; i++) {
             this.htabla.add(new LinkedList<>());
         }
     }
@@ -31,7 +31,7 @@ public class HashTable<V> {
      * @return int indice
      */
     private int hashFuncion(int k) {
-        return (k % 7);
+        return (k % tamano);
     }
 
     /**
@@ -42,11 +42,12 @@ public class HashTable<V> {
      */
     public void insertar(int key, V value){
         Nodo<V> nodo = new Nodo<V>(key, value);
-        int indice = hashFuncion(llave);
         //Buscamos si ya existe la llave
-        if(busqueda(llave)){
+        if (existeElemento(key)){
             eliminar(key);
         }
+        int indice = hashFuncion(key);
+
         htabla.get(indice).add(nodo);
         cantidadElementos ++;
     }
@@ -56,7 +57,7 @@ public class HashTable<V> {
      * @param key
      * @return boolean
      */
-    public boolean busqueda(int key) {
+    public boolean existeElemento(int key) {
         int indice = hashFuncion(key);
         LinkedList<Nodo<V>> listaBuscar = htabla.get(indice);
 
@@ -67,11 +68,27 @@ public class HashTable<V> {
         }
         return false;
     }
+    /**
+     * Método dn existeElemento que al pasar una llave regresa el elemento asociado
+     * En caso de regresar "Null" no se encontro el elemento
+     * @param key
+     * @return
+     */
+    public V busqueda(int key){
+        int indice = hashFuncion(key);
+        LinkedList<Nodo<V>> listaBuscar = htabla.get(indice);
 
+        for (Nodo<V> v : listaBuscar) {
+            if (v.obtenerLlave() == key) {
+                return v.obtenerValor();
+            }
+        }
+        return null;
+    }
 
     public boolean eliminar(int key) {
         int indice = hashFuncion(key);
-        if (busqueda(key)) {
+        if(existeElemento(key)) {
             LinkedList<Nodo<?>> listaEliminar = htabla[indice];
             for (Nodo<?> v : listaEliminar) {
                 if (v.obtenerLlave() == key) {
