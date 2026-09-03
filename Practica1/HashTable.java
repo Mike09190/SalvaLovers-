@@ -1,48 +1,73 @@
 import java.util.LinkedList;
-
-public class HashTable {
-
+import java.util.ArrayList;
+/**
+ * Clase de HasTable utilizando LinkedList para un encadenamiento directo
+ * HashTable
+ */
+public class HashTable<V> {
+    //Atributos de la clase
     private int cantidadElementos;
     private int tamano = 7;
-    private LinkedList<Nodo<?>>[] htabla;
-
+    //Uso de la clase ArrayList para poder utilizar valores génericos sin arrojar ninguna advertencia
+    private ArrayList<LinkedList<Nodo<V>>> htabla; // 
+    /**
+     * Método constructor con parámetros
+     * Declara los elementos de la tabla hash como LinkedList
+     * @param tamano
+     */
     public HashTable(int tamano) {
         this.tamano = tamano;
         this.cantidadElementos = 0;
 
-        this.htabla = (LinkedList<Nodo<?>>[]) new LinkedList[tamano];
+        this.htabla = new ArrayList<>(tamano);
 
-        for (int i = 0; i < htabla.length; i++) {
-            htabla[i] = new LinkedList<>();
+        for (int i = 0; i < capacidad; i++) {
+            this.htabla.add(new LinkedList<>());
         }
     }
-
-    public int hashFuncion(int k) {
+    /**
+     * Método privado que realiza la función de dispersión con módulo 7
+     * @param k
+     * @return int indice
+     */
+    private int hashFuncion(int k) {
         return (k % 7);
     }
 
-    public void insertar(Nodo<?> nodo) {
-        if (busqueda(nodo.obtenerLlave()) == false) {
-            htabla[hashFuncion(nodo.obtenerLlave())].add(nodo);
-            cantidadElementos++;
-        } else {
-            eliminar(nodo.obtenerLlave());
-            htabla[hashFuncion(nodo.obtenerLlave())].add(nodo);
-
+    /**
+     * Método de insertar que solicita la llave y el valor a ingresar un elemento a la table
+     * En caso de existir un elemento con la misma llave el programa reemplaza el valor por el nuevo
+     * @param key
+     * @param value
+     */
+    public void insertar(int key, V value){
+        Nodo<V> nodo = new Nodo<V>(key, value);
+        int indice = hashFuncion(llave);
+        //Buscamos si ya existe la llave
+        if(busqueda(llave)){
+            eliminar(key);
         }
+        htabla.get(indice).add(nodo);
+        cantidadElementos ++;
     }
 
+    /**
+     * Método booleano que regresa true en caso de encontrar el elemento, caso contrario False
+     * @param key
+     * @return boolean
+     */
     public boolean busqueda(int key) {
         int indice = hashFuncion(key);
-        LinkedList<Nodo<?>> listaBuscar = htabla[indice];
+        LinkedList<Nodo<V>> listaBuscar = htabla.get(indice);
 
-        for (Nodo<?> v : listaBuscar) {
+        for (Nodo<V> v : listaBuscar) {
             if (v.obtenerLlave() == key) {
                 return true;
             }
         }
         return false;
     }
+
 
     public boolean eliminar(int key) {
         int indice = hashFuncion(key);
