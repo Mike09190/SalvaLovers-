@@ -2,10 +2,15 @@ import java.util.Scanner;
 
 public class Interfaz {
     public static void main(String[] args) {
+        //Creación de variables
         int tamanio = 7;
         int key;
+        char eleccion;
+        boolean continuar = true;
+        //Creación de Objetos
         Scanner sc = new Scanner(System.in);
-        HashTable h = new HashTable(tamanio);
+        //Creación de la tabla hash y primer elemento a guardar
+        HashTable<String> h = new HashTable<>(tamanio);
         System.out.println("Ingresa la llave del primer elemento: ");
         while (true) {
             try {
@@ -17,10 +22,9 @@ public class Interfaz {
             }
         }
         System.out.println("Ingresa el elemento a guardar: ");
-        String valorAGuardar = sc.next();
-        Nodo<String> n = new Nodo<>(key, valorAGuardar);
-        h.insertar(n);
-        int eleccion = 0;
+        String valorAGuardar = sc.nextLine();
+        h.insertar(key, valorAGuardar); //Insertamos primer elemento
+
         do {
             System.out.println("Que otra acción deseas realizar:");
             System.out.println("1) Ingresar otro elemento ");
@@ -28,29 +32,28 @@ public class Interfaz {
             System.out.println("3) Eliminar un elemento de la tabla");
             System.out.println("4) Imprimir tabla");
             System.out.println("5) Salir");
-            try {
-                eleccion = sc.nextInt();
+            eleccion = sc.next().charAt(0);
 
                 switch (eleccion) {
-                    case 1:
+                    case '1': //Insertar elementos
                         sc.nextLine();
                         System.out.println("Ingresa la llave del elemento");
-                        int key2 = sc.nextInt();
+                        key = sc.nextInt();
                         System.out.println("Ingresa el elemento a guardar: ");
-                        String valor = sc.next();
-                        Nodo<String> x = new Nodo<>(key2, valor);
-                        h.insertar(x);
+                        valorAGuardar = sc.nextLine();
+                        h.insertar(key, valorAGuardar);
                         break;
-                    case 2:
+                    case '2': //Buscar elementos
                         System.out.println("Ingresa la llave del elemento a buscar:");
                         int llave = sc.nextInt();
-                        if (h.busqueda(llave)) {
-                            System.out.println("El elemento se encuentra en la tabla ");
+                        String busqueda = h.busqueda(llave);
+                        if (busqueda != null) {
+                            System.out.println("El elemento con la llave " + llave + " es: " + busqueda);
                         } else {
-                            System.out.println("El elemento NO se encuentra en la tabla ");
+                            System.out.println("El elemento con la llave " + llave + " no se encuentra en la tabla");
                         }
                         break;
-                    case 3:
+                    case '3': //Eliminar elementos
                         System.out.println("Ingresa la llave del elemento a eliminar:");
                         int cont = sc.nextInt();
                         if (h.eliminar(cont)) {
@@ -59,22 +62,20 @@ public class Interfaz {
                             System.out.println("El elemento a eliminar NO se encuentra en la tabla ");
                         }
                         break;
-                    case 4:
+                    case '4': //Imprimir tabla
                         h.imprimirTabla();
                         break;
-                    case 5:
+                    case '5': //Salir del programa
                         System.out.println("Adios");
+                        continuar = false;
                         break;
-                    default:
+                    default: //Opcion no valida
                         System.out.println("Opcion no valida, intente de nuevo");
                         break;
                 }
 
-            } catch (Exception e) {
-                System.out.println("Debes introducir un número");
-            }
 
-        } while (eleccion != 5);
+        } while (continuar);
 
         sc.close();
     }
