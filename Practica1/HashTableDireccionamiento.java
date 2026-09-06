@@ -63,16 +63,19 @@ private int tamano;
      * Método para insertar valores en la tabla hash
      * @param key clave del valor a insertar
      * @param value valor a insertar
-     */
-
-    /**
-     * Notas de como implementar el método insertar:
-     * 1. Calcular el índice usarno hashFunction(key)
-     * 2.Recorrer la tabla mediante un bucle while hasta encontrar una casilla disponible
-     * 
+     * @throws IllegalStateException si la tabla esta llena y no hay ninguna casilla
+     * null, elimanada o con la misma llave disponible 
      */
     public void insertar (int key, V value){
-        
+        int indice = indiceDisponible(key);
+
+        // Si no se encontro ninguna posicion disponible, la tabla esta llena
+        if(indice == -1){
+        throw new IllegalStateException("La tabla hash esta llena, no se puede insertar la llave " + key);
+        }
+        // Se crea un nodo nuevo y se coloca en la posicion encontrada, ya sea que 
+        // estuviera vacia, eliminada, o era la misma llave 
+        htabla.set(indice, new NodoDireccionamientoAbierto<>(key,value));
     }
 
     /**
@@ -80,6 +83,25 @@ private int tamano;
      * @param key Clave del valor a buscar
      * @return valor encontrado o null si no se encuentra
      */
+    public V buscar(int key){
+        int indice = hashFunction(key);
+        
+        for(int i = 0; i < tamano ; i++){
+            int indiceActual = (indice + i) % tamano;
+            NodoDireccionamientoAbierto<V> nodo = htabla.get(indiceActual);
+
+            // Si llegamos a una casilla nunca usada, la llave no esta en la tabla
+            if(nodo == null){
+                return null;
+            }
+            // Solo se compara si el nodo sigue activo (no eliminado)
+            if(!nodo.estaEliminado() && nodo.obtenerLlave() == key){
+                return nodo.obtenerValor();
+            }
+            // Si el nodo esta eliminado o es otra llave, seguimos sondeando
+        }
+        return null;
+    }
 
 
     /**
@@ -87,6 +109,11 @@ private int tamano;
      * @param key Clave del valor a eliminar
      * @return boolean true si se eliminó correctamente, false si no se encontró
      */
+    public boolean eliminar(int key){
+        int indice = indiceDisponible(key);
+
+        
+    }
 
     /**
      * Método para imprimir la tabla hash  
