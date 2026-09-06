@@ -2,7 +2,7 @@ import java.util.*;
 
 public class HashTableDireccionamiento<V>{
 //Creacion de atributos
-private ArrayList<Nodo<V>> htabla;
+private ArrayList<NodoDireccionamientoAbierto<V>> htabla;
 private int tamano;
 
 
