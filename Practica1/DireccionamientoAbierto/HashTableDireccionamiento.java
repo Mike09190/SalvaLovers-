@@ -121,10 +121,19 @@ public class HashTableDireccionamiento<V> {
         return false;
     }
 
-    /**
-     * Imprimir tabla.
-     * 
-     * 
-     */
-    
+    public void imprimirTabla () {
+        System.out.println(" ---- TABLA HASH PRO -----");
+        for (int i = 0; i < tamano; i++) {
+            NodoDireccionamientoAbierto<V> nodo = htabla.get(i);
+            System.out.print("indice " + i + ": ");
+            
+            if (nodo == null) {
+                System.out.println("Vacio");
+            } else if (nodo.estaEliminado()) {
+                System.out.println("Eliminado");
+            } else {
+                System.out.println("Llave: " + nodo.obtenerLlave() + ", Valor: " + nodo.obtenerValor());
+            }
+        }
+    }
 }
