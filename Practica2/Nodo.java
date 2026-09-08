@@ -75,3 +75,27 @@ public class Nodo{
     }
 
 }
+/**
+     * Método para buscar llave por llave dentro del nodo
+     */
+    public boolean buscaLlave(int llave){
+
+        for(int i=0; i < 3 ; i++){
+            if(this.llaves.indexOf(i) == llave){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Método q regresa la llave de un elemento
+     * @param int indice del valor a regresar
+     */
+    public int obtenLlave(int indice){
+        this.llave.get(indice);
+
+    }
+
+
+}
