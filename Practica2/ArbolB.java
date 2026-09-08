@@ -79,9 +79,8 @@ public class ArbolB{
         /**
      * Método auxiliar para hacer Split sobre el árbol B
      * @param Nodo nodo el cual se realiza split
-     * @return true Si hizo bien el split
      */
-    private boolean split(Nodo nodo){
+    private void split(Nodo nodo){
         int k3 = nodo.obtenLlave(2);
         Nodo nodo1 = new Nodo();
         Nodo nodo2 = new Nodo();
@@ -90,8 +89,33 @@ public class ArbolB{
         nodo1.setLlave(nodo.obtenLlave(1));
 
         nodo2.setLlave(nodo.obtenLlave(3));
+    //Cuando el nodo del split no es hoja, osea tiene hijos
+        if(!nodo.esHoja()){                      
+            for(int i=0; i<2; i++){
+                Nodo hijo = nodo.obtenerHijoIndice(i);
+
+                if(hijo !=null){
+                    nodo1.setHijo(hijo);
+                    hijo.setPadre(nodo1);
+                }
+            }
+
+            for(int j=2; j<4; j++){
+                Nodo hijo = nodo.obtenerHijoIndice(j);
+
+                if(hijo != null){
+                    nodo2.setHijo(hijo);
+                    hijo.setPadre(nodo2);
+                }
+            }
+
+            if(padre.numHijos > 3){
+                split(padre); //Hacemos recursión en caso de que el padre requiera un split
+            }
+        } 
+        //Cuando tiene padre
         if(nodo.getPadre() != null){
-            Nodo padre = nodo.getPadre;
+            Nodo padre = nodo.getPadre();
 
             nodo1.setPadre(padre);
             nodo2.setPadre(padre);
@@ -100,18 +124,19 @@ public class ArbolB{
             padre.setHijo(nodo1);
             padre.setHijo(nodo2);
         }
-    //Cuando el nodo del split no es hoja, osea tiene hijos
-        if(!nodo.esHoja){                      
-            Nodo padre = nodo.getPadre;
-            nodo1.setPadre(padre);
-            nodo2.setPadre(padre);
+        
+           //Cuando no tiene padre
+        else{
+            Nodo nuevaRaiz = new Nodo();
 
-            padre.setLlave(k3);
-            padre.setHijo(nodo1);
-            padre.setHijo(nodo2);
-            if(padre.numHijos > 3){
-                split(padre); //Hacemos recursión en caso de que el padre requiera un split
-            }
+            nuevaRaiz.setLlave(k3);
+            nuevaRaiz.sethijo(nodo1);
+            nuevaRaiz.sethijo(nodo2);
+
+            nodo1.setPadre(nuevaRaiz);
+            nodo2.setPadre(nuevaRaiz);
+
+            raiz = nuevaRaiz;
         }
 
     }
