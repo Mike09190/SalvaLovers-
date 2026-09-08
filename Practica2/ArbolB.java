@@ -99,6 +99,52 @@ public class ArbolB{
 
     }
 
+    /**
+     * Método que busca una llave dentro del Árbol B, primero comparando el elemento con el Nodo actual y luego con sus hijos si no es hoja
+     * @param int llave a buscar
+     * @return true si la llave sí está dentro del árbol B y false si no lo encuentra
+     */
+    public boolean buscar(int llave){
+        Nodo nodoActual = this.raiz;
 
+        //Empezamos en raíz
+        if(nodoActual.buscaLlave(llave)){
+            return true;
+        }
+
+        // Si el nodo actual es hoja y no está la llave buscada, regresa false
+            if(nodoActual.esHoja()){
+            return false;
+            }
+        // Si no está en la raíz, que busque en sus hijos
+        //Si el elemento es menor que la primera llave, se baja al hijo 0
+        
+        if(nodoActual.obtenLlave(0) > llave){
+            Nodo nodoH1 = nodoActual.getHijos().get(0);
+            return nodoH1.buscar(llave);
+        }    
+
+        //Si el elemento es mayor que la primera llave y menor que la segunda llave, se baja al hijo 1
+        if(nodoActual.obtenLlave(0) < llave && llave < nodoActual.obtenLlave(1)){
+            Nodo nodoH2 = nodoActual.getHijos().get(1);
+            return nodoH2.buscar(llave);
+        }
+        
+        //Si el elemento es mayor que la segunda llave y mayor que la segunda llave, se baja al hijo 2
+        if(nodoActual.obten(1) < llave && llave < nodoActual(2)){
+            Nodo nodoH3 = nodoActual.getHijos().get(2);
+            return nodoH3.buscar(llave);
+        }
+
+        //Si el elemento es mayor que la tercera llave, se baja al hijo 3
+        if(nodoActual.obten(2) < llave){
+            Nodo nodoH4 = nodoActual.getHijos().get(3);
+            return nodoH4.buscar(llave);
+        }
+        return false;
+
+    }
+
+}
 
 }
