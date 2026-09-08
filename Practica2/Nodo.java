@@ -1,4 +1,4 @@
-import java.util.llaves;
+import java.util.ArrayList;
 
 public class Nodo{
     private llaves<Integer> llaves;
@@ -40,6 +40,10 @@ public class Nodo{
 
     public int getNumLlaves(){
         return this.numLlaves();
+    }
+
+    public ArrayList<Nodo> getHijos(){
+        return this.hijos;
     }
 
     /**
