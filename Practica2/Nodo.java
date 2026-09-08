@@ -1,8 +1,8 @@
-import java.util.ArrayList;
+import java.util.llaves;
 
 public class Nodo{
-    private ArrayList<Integer> llaves;
-    private ArrayList<Nodo> hijos;
+    private llaves<Integer> llaves;
+    private llaves<Nodo> hijos;
     private boolean esHoja;
     private Nodo padre;
     private int numLlaves;
@@ -13,8 +13,8 @@ public class Nodo{
      * Método constructor
      */
     public Nodo(){
-        this.llaves = new ArrayList<>(3);
-        this.hijos = new ArrayList<>(4);
+        this.llaves = new llaves<>(3);
+        this.hijos = new llaves<>(4);
         this.esHoja = true;
         this.padre = null;
         this.numLlaves = 0;
@@ -57,6 +57,21 @@ public class Nodo{
 
     public void setPadre(Nodo padre){
         this.padre = padre;
+    }
+        /**
+     * Método auxiliar para ordenar llaves de llaves
+     * 
+     */
+    public void ordenar(){
+    int temporal;
+    for(int i=0; i<r-1; i++){
+        for(int j = 0; j<r -i -1; j++){
+            if(llaves.get(i) > llaves.get(j+1)){
+                temporal = llaves.get(j);
+                llaves.set(j, llaves.get(j+1));
+                llaves.set(j+1, temporal);
+            }
+        }
     }
 
 }

@@ -68,22 +68,6 @@ public class ArbolB{
 
     }
 
-    /**
-     * Método auxiliar para ordenar ArrayList de llaves
-     * 
-     * @param ArrayList a ordenar
-     */
-    private void ordenar(ArrayList<Integer> arrayList){
-    int temporal;
-    for(int i=0; i<r-1; i++){
-        for(int j = 0; j<r -i -1; i++){
-            if(arrayList.get(i) > arrayList.get(j+1)){
-                temporal = arrayList.get(j);
-                arrayList.set(j, arrayList.get(j+1));
-                arrayList.set(j+1, temporal)
-            }
-        }
-    }
 
 
 
