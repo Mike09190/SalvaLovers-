@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class Nodo{
-    private llaves<Integer> llaves;
-    private llaves<Nodo> hijos;
+    private ArrayList<Integer> llaves;
+    private ArrayList<Nodo> hijos;
     private boolean esHoja;
     private Nodo padre;
     private int numLlaves;
@@ -13,8 +13,8 @@ public class Nodo{
      * Método constructor
      */
     public Nodo(){
-        this.llaves = new llaves<>(3);
-        this.hijos = new llaves<>(4);
+        this.llaves = new ArrayList<>(3);
+        this.hijos = new ArrayList<>(4);
         this.esHoja = true;
         this.padre = null;
         this.numLlaves = 0;
