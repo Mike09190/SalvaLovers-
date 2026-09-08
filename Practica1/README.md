@@ -88,3 +88,4 @@ Lo importante **no es evitar completamente las colisiones**, sino **manejarlas c
 En esta práctica se utiliza el método de **encadenamiento**, mediante el cual los elementos que producen la misma posición se almacenan dentro de la `LinkedList` correspondiente.
 
 Por lo tanto, una colisión por sí misma no representa un error; el problema existiría si la implementación no fuera capaz de manejarla correctamente.
+    1
