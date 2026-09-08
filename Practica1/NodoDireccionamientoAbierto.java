@@ -1,7 +1,9 @@
+
 public class NodoDireccionamientoAbierto<V> {
+    
     private int llave;
     private V valor;
-    private boolean eliminado;
+    public boolean eliminado;
 
     
     public NodoDireccionamientoAbierto(int llave, V valor) {
@@ -19,7 +21,7 @@ public class NodoDireccionamientoAbierto<V> {
     }
 
     public boolean estaEliminado() {
-    return this.eliminado;
+	return this.eliminado;
     }
     
     @Override
