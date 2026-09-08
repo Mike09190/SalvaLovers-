@@ -76,5 +76,29 @@ public class ArbolB{
 
     }
 
+        /**
+     * Método auxiliar para hacer Split sobre el árbol B
+     * @param Nodo nodo el cual se realiza split
+     * @return true Si hizo bien el split
+     */
+    private boolean split(Nodo nodo){
+        int k3 = nodo.obtenLlave(2);
+        Nodo nodo1 = new Nodo();
+        Nodo nodo2 = new Nodo();
+
+        nodo1.setLlave(nodo.obtenLlave(0));
+        nodo1.setLlave(nodo.obtenLlave(1));
+
+        nodo2.setLlave(nodo.obtenLlave(3));
+        if(nodo.getPadre != null){
+            Nodo padre = nodo.getPadre;
+            padre.setLlave(k3);
+            padre.setHijo(nodo1);
+            padre.setHijo(nodo2);
+        }
+
+    }
+
+
 
 }
