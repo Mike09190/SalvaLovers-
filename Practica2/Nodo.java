@@ -57,6 +57,7 @@ public class Nodo{
     public void setHijo(Nodo hijo){
         this.hijos.add(hijo);
         this.numHijos++;
+        this.esHoja = false;
     }
 
     public void setPadre(Nodo padre){
