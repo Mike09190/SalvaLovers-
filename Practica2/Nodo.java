@@ -46,6 +46,10 @@ public class Nodo{
         return this.hijos;
     }
 
+    public Nodo obtenerHijoIndice(int indice){
+        this.hijos.get(indice);
+    }
+
     /**
      * Setters
      */

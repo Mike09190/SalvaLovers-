@@ -90,11 +90,28 @@ public class ArbolB{
         nodo1.setLlave(nodo.obtenLlave(1));
 
         nodo2.setLlave(nodo.obtenLlave(3));
-        if(nodo.getPadre != null){
+        if(nodo.getPadre() != null){
             Nodo padre = nodo.getPadre;
+
+            nodo1.setPadre(padre);
+            nodo2.setPadre(padre);
+
             padre.setLlave(k3);
             padre.setHijo(nodo1);
             padre.setHijo(nodo2);
+        }
+    //Cuando el nodo del split no es hoja, osea tiene hijos
+        if(!nodo.esHoja){                      
+            Nodo padre = nodo.getPadre;
+            nodo1.setPadre(padre);
+            nodo2.setPadre(padre);
+
+            padre.setLlave(k3);
+            padre.setHijo(nodo1);
+            padre.setHijo(nodo2);
+            if(padre.numHijos > 3){
+                split(padre); //Hacemos recursión en caso de que el padre requiera un split
+            }
         }
 
     }
