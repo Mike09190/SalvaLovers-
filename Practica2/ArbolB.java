@@ -43,21 +43,29 @@ public class ArbolB{
     }
     /**
      * Método insertar
+     * 
+     * @param int llave
      */
 
     public void insertar(int llave){
-         //revisar que si sean ints
-        Nodo nuevo = new Nodo();
 
         //Si no hay raíz
         if(this.raiz == null){
+            Nodo nuevo = new Nodo();
             nuevo.setLlave(llave);
             this.raiz = nuevo;
+            this.numNiveles = 1;
+            return;
+        }
+        // caso dos 2, aun hay llaves disponibles
+        if(this.raiz.getNumLlaves() < r){
+            this.raiz.setLlave(llave);
+            this.raiz.ordenar();
+            return;
         }
 
-        //Si el núm
-        if()
-        
+        if(llave );
+
 
         if(nuevo.equals(this.raiz)){
             nuevo.setLlave(llave);
@@ -67,9 +75,6 @@ public class ArbolB{
         nuevo.setLlave(llave);
 
     }
-
-
-
 
 
 }
