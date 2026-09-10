@@ -57,23 +57,30 @@ public class ArbolB{
             this.numNiveles = 1;
             return;
         }
-        // caso dos 2, aun hay llaves disponibles
+
+        Nodo nodoNuevoElemento = insertar(raiz, llave);  
+        split(nodoNuevoElemento);
+
+    }
+
+    /**
+     * Método auxiliar para hacer la recursión del Nodo para insertar elemento
+     * @param Nodo Nodo hijo en el cual se va a buscar
+     * @param key llave a insertar 
+     * @return Nodo nodo donde se puede insertar el valor
+     */
+    private Nodo insertar(Nodo nodo, int llave){
+
+        // Caso base si el lugar tiene espacio
         if(this.raiz.getNumLlaves() < r){
             this.raiz.setLlave(llave);
             this.raiz.ordenar();
             return;
         }
-
-        if(llave );
-
-
-        if(nuevo.equals(this.raiz)){
-            nuevo.setLlave(llave);
+        //Llamar recursivamente 
+        for(int i =0; i<nodo.hijos.size(); i++){
+            if(llave )
         }
-
-
-        nuevo.setLlave(llave);
-
     }
 
         /**
@@ -152,7 +159,7 @@ public class ArbolB{
         }
 
         // Si el nodo actual es hoja y no está la llave buscada, regresa false
-            if(nodoActual.esHoja()){
+            if(nodoActual.esHoja() && !nodoActual.contains(llave)){
             return false;
             }
         // Si no está en la raíz, que busque en sus hijos
@@ -183,7 +190,35 @@ public class ArbolB{
         return false;
 
     }
+    /**
+     * Método recursivo que busca el Nodo donde se puede insertar un elemento
+     * @param key llave a insertar
+     * @return Nodo el Nodo donde puede ir el elemento
+     */
+    private Nodo buscarNodo(int key){
+        return buscarNodo(this.raiz, key);
+    }
 
-}
+    /**
+     * Método auxiliar que devuelve el Nodo donde se puede insertar un elemento
+     * @param Nodo nodo donde se busca si es hoja
+     * @param key llave a insertar
+     * @return Nodo el Nodo donde puede ir el elemento
+     */
+    private Nodo buscarNodo(Nodo nodoActual, int key){
+        /Caso base 1. La raíz tiene menos de r elementos
+        if(nodoActual.esHoja()){
+            return nodoActual;
+        }
+
+        //Recursividad bajar a sus hijos por condiciones
+        int indice = 0;
+        while(indice < nodoActual.getNumLlaves() && key > nodoActual.obtenLlave(indice)){
+            indice ++;
+        }
+        Nodo hijo = nodoActual.obtenerHijoIndice(indice); 
+        return buscarNodo(hijo, key);  
+    }
+
 
 }
