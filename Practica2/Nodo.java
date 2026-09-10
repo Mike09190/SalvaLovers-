@@ -105,6 +105,25 @@ public class Nodo{
         this.llave.get(indice);
 
     }
+    /**
+     * Método para reemplazar los hijos anteriores de un Nodo y poner el nuevo
+     * @param Nodo nodo hijo a eliminar
+     * @param Nodo nodo1 a insertar
+     * @param Nodo nodo2 a insertar
+     */
+    public void reemplazar(Nodo nodo, Nodo nodo1, Nodo nodo2){
+        int pos = this.hijos.indexOf(nodo);
+        Nodo padre = nodo.getPadre();
+        this.hijos.remove(nodo);
+        numHijos--;
 
+        this.hijos.add(pos, nodo1);
+        this.hijos.add(pos+1, nodo2);
+
+        numHijos += 2;
+
+        nodo1.setPadre(padre);
+        nodo2.setPadre(padre);
+    }
 
 }

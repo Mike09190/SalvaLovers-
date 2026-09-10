@@ -82,6 +82,8 @@ public class ArbolB{
      */
     private void split(Nodo nodo){
         int k3 = nodo.obtenLlave(2);
+
+        Nodo padre = nodo.getPadre();
         Nodo nodo1 = new Nodo();
         Nodo nodo2 = new Nodo();
 
@@ -90,7 +92,8 @@ public class ArbolB{
 
         nodo2.setLlave(nodo.obtenLlave(3));
     //Cuando el nodo del split no es hoja, osea tiene hijos
-        if(!nodo.esHoja()){                      
+        if(!nodo.esHoja()){     
+                 
             for(int i=0; i<2; i++){
                 Nodo hijo = nodo.obtenerHijoIndice(i);
 
@@ -108,21 +111,15 @@ public class ArbolB{
                     hijo.setPadre(nodo2);
                 }
             }
+        }
 
+        //Cuando tiene padre
+        if(nodo.getPadre() != null){
+            padre.setLlave(k3);
+            padre.reemplazar(nodo, nodo1, nodo2);
             if(padre.numHijos > 3){
                 split(padre); //Hacemos recursión en caso de que el padre requiera un split
             }
-        } 
-        //Cuando tiene padre
-        if(nodo.getPadre() != null){
-            Nodo padre = nodo.getPadre();
-
-            nodo1.setPadre(padre);
-            nodo2.setPadre(padre);
-
-            padre.setLlave(k3);
-            padre.setHijo(nodo1);
-            padre.setHijo(nodo2);
         }
         
            //Cuando no tiene padre
@@ -130,8 +127,8 @@ public class ArbolB{
             Nodo nuevaRaiz = new Nodo();
 
             nuevaRaiz.setLlave(k3);
-            nuevaRaiz.sethijo(nodo1);
-            nuevaRaiz.sethijo(nodo2);
+            nuevaRaiz.setHijo(nodo1);
+            nuevaRaiz.setHijo(nodo2);
 
             nodo1.setPadre(nuevaRaiz);
             nodo2.setPadre(nuevaRaiz);
