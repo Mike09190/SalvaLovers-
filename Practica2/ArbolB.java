@@ -58,30 +58,16 @@ public class ArbolB{
             return;
         }
 
-        Nodo nodoNuevoElemento = insertar(raiz, llave);  
-        split(nodoNuevoElemento);
+        Nodo nodo = buscarNodo(llave);
+        nodo.setLlave(llave);
+        nodo.ordenar();
+        if(nodo.getNumLlaves() > r){
+            split();
+        }
+
 
     }
 
-    /**
-     * Método auxiliar para hacer la recursión del Nodo para insertar elemento
-     * @param Nodo Nodo hijo en el cual se va a buscar
-     * @param key llave a insertar 
-     * @return Nodo nodo donde se puede insertar el valor
-     */
-    private Nodo insertar(Nodo nodo, int llave){
-
-        // Caso base si el lugar tiene espacio
-        if(this.raiz.getNumLlaves() < r){
-            this.raiz.setLlave(llave);
-            this.raiz.ordenar();
-            return;
-        }
-        //Llamar recursivamente 
-        for(int i =0; i<nodo.hijos.size(); i++){
-            if(llave )
-        }
-    }
 
         /**
      * Método auxiliar para hacer Split sobre el árbol B
@@ -123,8 +109,9 @@ public class ArbolB{
         //Cuando tiene padre
         if(nodo.getPadre() != null){
             padre.setLlave(k3);
+            padre.ordenar();
             padre.reemplazar(nodo, nodo1, nodo2);
-            if(padre.numHijos > 3){
+            if(padre.getNumHijos > r){
                 split(padre); //Hacemos recursión en caso de que el padre requiera un split
             }
         }
