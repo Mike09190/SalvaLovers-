@@ -39,7 +39,7 @@ public class Nodo{
     }
 
     public int getNumLlaves(){
-        return this.numLlaves();
+        return this.numLlaves;
     }
 
     public ArrayList<Nodo> getHijos(){
@@ -47,7 +47,7 @@ public class Nodo{
     }
 
     public Nodo obtenerHijoIndice(int indice){
-        this.hijos.get(indice);
+        return this.hijos.get(indice);
     }
 
     /**
@@ -73,8 +73,8 @@ public class Nodo{
      */
     public void ordenar(){
     int temporal;
-    for(int i=0; i<r-1; i++){
-        for(int j = 0; j<r -i -1; j++){
+    for(int i=0; i<numLlaves-1; i++){
+        for(int j = 0; j<numLlaves -i -1; j++){
             if(llaves.get(i) > llaves.get(j+1)){
                 temporal = llaves.get(j);
                 llaves.set(j, llaves.get(j+1));
@@ -84,7 +84,7 @@ public class Nodo{
     }
 
 }
-/**
+    /**
      * Método para buscar llave por llave dentro del nodo
      */
     public boolean buscaLlave(int llave){
@@ -100,9 +100,10 @@ public class Nodo{
     /**
      * Método q regresa la llave de un elemento
      * @param int indice del valor a regresar
+     * @return llave almacenada en el indice
      */
     public int obtenLlave(int indice){
-        this.llave.get(indice);
+        return this.llaves.get(indice);
 
     }
     /**
