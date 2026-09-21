@@ -86,6 +86,8 @@ public class Nodo{
 }
     /**
      * Método para buscar llave por llave dentro del nodo
+     * 
+     * @param int llave 
      */
     public boolean buscaLlave(int llave){
 
@@ -127,4 +129,15 @@ public class Nodo{
         nodo2.setPadre(padre);
     }
 
+    // metodos agregados para eliminar 
+
+    /**
+     * Elimina una llave mediante un indice
+     *
+     * @param indice de la llave a eliminar 
+     */
+    public void eliminarLlaveIndice(int indice){
+        this.llaves.remove(indice);
+        this.numLlaves--;
+    }
 }
