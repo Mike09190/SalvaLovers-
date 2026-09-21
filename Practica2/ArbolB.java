@@ -58,11 +58,10 @@ public class ArbolB{
             return;
         }
 
-        if(buscar(llave)){
+        Nodo nodo = buscarNodo(llave);
+        if(nodo.buscaLlave(llave)){
             return;
         }
-
-        Nodo nodo = buscarNodo(llave);
         nodo.setLlave(llave);
         nodo.ordenar();
         if(nodo.getNumLlaves() > r){
@@ -113,7 +112,7 @@ public class ArbolB{
             padre.setLlave(k3);
             padre.ordenar();
             padre.reemplazar(nodo, nodo1, nodo2);
-            if(padre.getNumHijos() > r){
+            if(padre.getNumLlaves() > r){
                 split(padre); //Hacemos recursión en caso de que el padre requiera un split
             }
         }
@@ -143,50 +142,25 @@ public class ArbolB{
     public boolean buscar(int llave){
         Nodo nodoActual = this.raiz;
 
-        //Empezamos en raíz
-        if(nodoActual.buscaLlave(llave)){
+        // Caso base árbol vacío
+        if (nodoActual == null) {
+            return false;
+        }
+
+        //Usamos el método auxiliar para buscar el nodo donde se encuentra la llave
+        Nodo nodo = buscarNodo(llave);
+        if (nodo != null && nodo.buscaLlave(llave)){
             return true;
         }
-
-        // Si el nodo actual es hoja y no está la llave buscada, regresa false
-            if(nodoActual.esHoja() && !nodoActual.contains(llave)){
-            return false;
-            }
-        // Si no está en la raíz, que busque en sus hijos
-        //Si el elemento es menor que la primera llave, se baja al hijo 0
-        
-        if(nodoActual.obtenLlave(0) > llave){
-            Nodo nodoH1 = nodoActual.getHijos().get(0);
-            return nodoH1.buscar(llave);    
-        }    
-
-        //Si el elemento es mayor que la primera llave y menor que la segunda llave, se baja al hijo 1
-        if(nodoActual.obtenLlave(0) < llave && llave < nodoActual.obtenLlave(1)){
-            Nodo nodoH2 = nodoActual.getHijos().get(1);
-            return nodoH2.buscar(llave);
-        }
-        
-        //Si el elemento es mayor que la segunda llave y mayor que la segunda llave, se baja al hijo 2
-        if(nodoActual.obten(1) < llave && llave < nodoActual(2)){
-            Nodo nodoH3 = nodoActual.getHijos().get(2);
-            return nodoH3.buscar(llave);
-        }
-
-        //Si el elemento es mayor que la tercera llave, se baja al   hijo 3
-        if(nodoActual.obten(2) < llave){
-            Nodo nodoH4 = nodoActual.getHijos().get(3);
-            return nodoH4.buscar(llave);
-        }
         return false;
-
-    }
+}
     /**
      * Método recursivo que busca el Nodo donde se puede insertar un elemento
      * @param key llave a insertar
      * @return Nodo el Nodo donde puede ir el elemento
      */
     private Nodo buscarNodo(int key){
-        return buscarNodo(this.raiz, key);
+        return buscarNodoRecursivo(this.raiz, key);
     }
 
     /**
@@ -195,9 +169,13 @@ public class ArbolB{
      * @param key llave a insertar
      * @return Nodo el Nodo donde puede ir el elemento
      */
-    private Nodo buscarNodo(Nodo nodoActual, int key){
+    private Nodo buscarNodoRecursivo(Nodo nodoActual, int key){
         //Caso base 1. La raíz tiene menos de r elementos
         if(nodoActual.esHoja()){
+            return nodoActual;
+        }
+        //Caso base 2, el nodo ya posee al elemento que se quiere insertar
+        if(nodoActual.buscaLlave(key)){
             return nodoActual;
         }
 
@@ -207,53 +185,97 @@ public class ArbolB{
             indice ++;
         }
         Nodo hijo = nodoActual.obtenerHijoIndice(indice); 
-        return buscarNodo(hijo, key);  
+        return buscarNodoRecursivo(hijo, key);  
     }
 
 
     public void eliminar(int llave){
+        //Verificar si existe un árbol
         if(this.raiz == null){
             return;
         }
-        Nodo nodo = buscarNodo(this.raiz, llave);
+        Nodo nodo = buscarNodo(llave); //Devuelve el nodo donde se puede encontrar la llave
 
-        if(nodo == null){
+        if(nodo == null || !nodo.buscaLlave(llave)){
             return;
         }
-        int indice = indiceLlave(nodo, llave);
-
-        // Caso 1 la llave esta en una hoja
-        if(nodo.esHoja()){
-            nodo.eliminarLlaveIndice(indice);
-
-            // falta ver cuando se desborda
-            return;
-        }
-
-        // Caso 2 la llave esta en un nodo interno
-        eliminarInterno(nodo, indice);
+        //Llamamos al método recursivo para eliminar una llave
+        eliminarRecursivo(nodo, llave);
     }
  
     /**
-     * Metodo auxiliar para buscar la posicion de la llave
-     * @param nodo 
-     * @param llave
+     * Método recursivo para eliminar una llave del árbol B
+     * @param nodo
+     * @param indice
      */
-    private int indiceLlave(Nodo nodo, int llave){
-        for(int i = 0; i < nodo.getNumLlaves(); i++){
-            if(nodo.obtenLlave(i) == llave){
-                return i;
+    private void eliminarRecursivo(Nodo nodo, int llave){
+        //Caso 1: El nodo es una hoja, por lo tanto solo eliminamos la llave
+        if(nodo.esHoja()){
+            nodo.borraLlave(llave);
+        }
+        //Case 2: El nodo no es una hoja, por lo que debemos ver si su predecesor o sucedor pueden donar
+        if(!nodo.esHoja()){
+            //Verificamos la carga de los hijos
+            int indice = nodo.getIndiceLlave(llave);
+
+            Nodo hijoIzquierdo = nodo.obtenerHijoIndice(indice);
+            Nodo hijoDerecho = nodo.obtenerHijoIndice(indice + 1);
+
+            int carga = 1;
+            if(hijoIzquierdo != null && hijoIzquierdo.getNumLlaves() > carga){
+                int predecesor = obtenerPredecesor(nodo, indice);
+                nodo.setLlaveIndice(indice, predecesor);
+                eliminarRecursivo(hijoIzquierdo, predecesor);
+            }
+            else if(hijoDerecho != null && hijoDerecho.getNumLlaves() > carga){
+                int sucesor = obtenerSucesor(nodo, indice);
+                nodo.setLlaveIndice(indice, sucesor);
+                eliminarRecursivo(hijoDerecho, sucesor);
+            }
+            else{
+               //Este método aun no existe xdxd fusionar(nodo, indice);
+                eliminarRecursivo(hijoIzquierdo, llave);
             }
         }
-        return -1;
     }
+
+    /**
+     * Método auxiliar que obtiene el predecesor de un nodo
+     * @param nodo nodo del que va a buscar su hijo izq el predecesor
+     * @param indice indice de llave del nodo
+     * @return int llave del predecesor
+     */
+    private int obtenerPredecesor(Nodo nodo, int indice){
+
+        Nodo hijo = nodo.obtenerHijoIndice(indice);
+        while (!hijo.esHoja()) {
+        hijo = hijo.obtenerHijoIndice(hijo.getNumHijos() - 1);
+        }
+        return hijo.obtenLlave(hijo.getNumLlaves() - 1);
+    }
+
+    /**
+     * Método auxiliar que obtiene el sucesor de un nodo
+     * @param nodo nodo del que va a buscar su hijo der el sucesor
+     * @param indice indice de llave del nodo
+     * @return int llave del sucesor
+     */
+    private int obtenerSucesor(Nodo nodo, int indice){
+        Nodo hijo = nodo.obtenerHijoIndice(indice + 1);
+
+        while (!hijo.esHoja()) {
+            hijo = hijo.obtenerHijoIndice(0);
+        }
+        return hijo.obtenLlave(0);
+    }
+
 
     private void eliminarInterno(Nodo nodo, int indice){
         Nodo izquierdo = nodo.obtenerHijoIndice(indice);
 
         // Primero intenramos utilizar el predecesor
         if(izquierdo.getNumLlaves() > q ){
-            Nodo predecesor = obtenerPredecesor(izquiero);
+            Nodo predecesor = obtenerPredecesor(izquierdo);
             int llavePredecesora = predecesor.obtenLlave(predecesor.getNumHijos() - 1);
 
             nodo.reemplazar();
@@ -277,28 +299,5 @@ public class ArbolB{
         fusionar(nodo, indice);
 
     }
-
-    /**
-     * 
-     */
-    private Nodo obtenerPredecesor(Nodo nodo){
-        Nodo actual = nodo;
-
-        while(!actual.esHoja()){
-            actual = actual.obtenerHijoIndice(actual.getNumHijos() - 1);
-        }
-        return actual;
-    }
-
-    /**
-     * 
-     */
-    private Nodo obtenerSucesor(Nodo nodo){
-        Nodo actual = nodo;
-
-        while (!actual.esHoja()) {
-            actual = actual.obtenerHijoIndice(0);
-        }
-        return actual;
-    }
 }
+
