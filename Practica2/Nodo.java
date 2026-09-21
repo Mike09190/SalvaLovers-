@@ -49,6 +49,9 @@ public class Nodo{
     public Nodo obtenerHijoIndice(int indice){
         return this.hijos.get(indice);
     }
+    public int getIndiceLlave(int llave){
+        return this.llaves.indexOf(llave);
+    }
 
     /**
      * Setters
@@ -57,7 +60,14 @@ public class Nodo{
         this.llaves.add(llave);
         this.numLlaves++;
     }
+    /**
+     * Método para agregar una llave en un índice específico
+     * @param int llave a agregar
+     */
+    public void setLlaveIndice(int indice, int llave){
+        this.llaves.add(indice, llave);
 
+    }
     public void setHijo(Nodo hijo){
         this.hijos.add(hijo);
         this.numHijos++;
@@ -75,7 +85,7 @@ public class Nodo{
     int temporal;
     for(int i=0; i<numLlaves-1; i++){
         for(int j = 0; j<numLlaves -i -1; j++){
-            if(llaves.get(i) > llaves.get(j+1)){
+            if(llaves.get(j) > llaves.get(j+1)){
                 temporal = llaves.get(j);
                 llaves.set(j, llaves.get(j+1));
                 llaves.set(j+1, temporal);
@@ -90,13 +100,7 @@ public class Nodo{
      * @param int llave 
      */
     public boolean buscaLlave(int llave){
-
-        for(int i=0; i < 3 ; i++){
-            if(this.llaves.indexOf(i) == llave){
-                return true;
-            }
-        }
-        return false;
+        return this.llaves.contains(llave);
     }
 
     /**
@@ -108,6 +112,18 @@ public class Nodo{
         return this.llaves.get(indice);
 
     }
+
+    
+    /**
+     * Método para borrar una llave del Nodo
+     * @param llave a borrar
+     */
+    public void borraLlave(int llave){
+        this.llaves.remove(llave);
+        this.numLlaves--;
+
+    }
+
     /**
      * Método para reemplazar los hijos anteriores de un Nodo y poner el nuevo
      * @param Nodo nodo hijo a eliminar
