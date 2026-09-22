@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class ArbolB{
 
     private Nodo raiz;
@@ -493,6 +496,41 @@ public class ArbolB{
         if(raiz.getNumHijos() == 0){
             raiz = null;
             numNiveles = 0;
+        }
+    }
+
+    /**
+     * Imprime el árbol B por niveles.
+     */
+    public void imprimirPorNiveles() {
+        if (this.raiz == null) {
+            System.out.println("Árbol vacío");
+            return;
+        }
+
+        Queue<Nodo> cola = new LinkedList<>();
+        cola.add(this.raiz);
+        int nivel = 0;
+
+        while (!cola.isEmpty()) {
+            int nodosNivel = cola.size();
+            System.out.print("Nivel " + nivel + ": ");
+            for (int i = 0; i < nodosNivel; i++) {
+                Nodo nodoActual = cola.poll();
+                nodoActual.imprimirNodo();
+
+                if (i < nodosNivel - 1) {
+                    System.out.print(" ");
+                }
+
+                if (!nodoActual.esHoja()) {
+                    for (int j = 0; j < nodoActual.getNumHijos(); j++) {
+                        cola.add(nodoActual.obtenerHijoIndice(j));
+                    }
+                }
+            }
+            System.out.println();
+            nivel++;
         }
     }
 }
