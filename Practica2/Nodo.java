@@ -54,24 +54,45 @@ public class Nodo{
     }
 
     /**
+     * Devuelve la posiciom de un hijo dentro del nodo
+     * @param hijo 
+     */
+    public int getIndiceHijo(Nodo hijo){
+        return this.hijos.indexOf(hijo);
+    }
+
+
+    /**
      * Setters
      */
+
+
     public void setLlave(int llave){
         this.llaves.add(llave);
         this.numLlaves++;
     }
     /**
-     * Método para agregar una llave en un índice específico
-     * @param int llave a agregar
+     * Método para reemplazar una llave en un índice específico
+     * @param int llave a reemplazar
      */
     public void setLlaveIndice(int indice, int llave){
-        this.llaves.add(indice, llave);
+        this.llaves.set(indice, llave);
 
     }
+
+    /**
+     * Inserta una nueva llave en un indice especifico.
+     */
+    public void insertarLlaveIndice(int indice, int llave){
+        this.llaves.add(indice, llave);
+        this.numLlaves--;
+    }
+
     public void setHijo(Nodo hijo){
         this.hijos.add(hijo);
         this.numHijos++;
         this.esHoja = false;
+        hijo.setPadre(this);
     }
 
     public void setPadre(Nodo padre){
@@ -113,14 +134,21 @@ public class Nodo{
 
     }
 
+    /**
+     * Indica si el nodo no contiene llaves.
+     */
+    public boolean estaVacio(){
+        return this.numLlaves == 0;
+    }
     
     /**
      * Método para borrar una llave del Nodo
      * @param llave a borrar
      */
     public void borraLlave(int llave){
-        this.llaves.remove(llave);
-        this.numLlaves--;
+        if (this.llaves.remove(Integer.valueOf(llave))){
+            this.numLlaves--;
+        }
 
     }
 
@@ -155,5 +183,32 @@ public class Nodo{
     public void eliminarLlaveIndice(int indice){
         this.llaves.remove(indice);
         this.numLlaves--;
+    }
+
+    /**
+     * Metodo que elimina un hijo por indice
+     * 
+     * @param indice 
+     */
+    public void eliminarHijoIndice(int indice){
+        this.hijos.remove(indice);
+        this.numHijos--;
+        if(this.hijos.isEmpty()){
+            this.esHoja = true;
+        }
+    }
+
+    public void insertarHijoIndice(int indice, Nodo hijo){
+        this.hijos.add(indice, hijo);
+        this.numHijos++;
+        this.esHoja = false;
+        hijo.setPadre(this);
+    }
+
+    public void agregarHijoAlInicio(Nodo hijo){
+        this.hijos.add(0, hijo);
+        this.numHijos++;
+        this.esHoja = false;
+        hijo.setPadre(this);
     }
 }
