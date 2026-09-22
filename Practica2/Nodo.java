@@ -211,4 +211,18 @@ public class Nodo{
         this.esHoja = false;
         hijo.setPadre(this);
     }
+
+    /**
+    * Imprime las llaves almacenadas en el nodo.
+    */
+    public void imprimirNodo(){
+        System.out.print("[");
+        for(int i = 0; i < this.numLlaves; i++){
+            System.out.print(this.llaves.get(i));
+            if(i < this.numLlaves - 1){
+                System.out.print(" | ");
+            }
+        }
+        System.out.print("]");
+    }
 }
