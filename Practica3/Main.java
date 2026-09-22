@@ -69,6 +69,18 @@ public class Main {
                 "Tamanio total: " + obtenerTamanio(carpeta));
     }
 
+    //MÉTODO DE AYUDA
+    static void comprobar(String nombre, int esperado, int obtenido) {
+    if (esperado == obtenido) {
+    System.out.println("OK: " + nombre);
+    } else {
+    System.out.println("FALLO: " + nombre
+    + " | esperado=" + esperado
+    + " | obtenido=" + obtenido);
+    }
+    }
+
+
     public static void main(String[] args) {
         Carpeta clase = new Carpeta("MyP");
         agregarArchivo(clase, "pdf", "practica.pdf", 120);
@@ -80,5 +92,50 @@ public class Main {
 
         System.out.println(obtenerTamanio(clase));
         enviarResultado(clase, "profesor@universidad.edu");
+
+
+
+        
+
+        //ARCHIVOS DE PRUEBA ANTERIORES
+           System.out.println("\n Prueba 1: \n");
+            Carpeta vacia = new Carpeta("Vacia"); // preparar
+            int total = obtenerTamanio(vacia); // ejecutar
+            comprobar("Carpeta vacia", 0, total); // comprobar
+        
+        
+            System.out.println("\n Prueba 2: \n");
+            Carpeta carpeta2 = new Carpeta("PDF 120"); // preparar
+            agregarArchivo(carpeta2, "pdf", "pdf2", 120);
+            int total2 = obtenerTamanio(carpeta2); // ejecutar
+            comprobar("Prueba2", 120, total2); // comprobar
+        
+        
+             System.out.println("\n Prueba 3: \n");
+            Carpeta carpeta3 = new Carpeta("PDF 120"); // preparar
+            agregarArchivo(carpeta3, "txt", "pdf3", 120);
+            agregarArchivo(carpeta3, "txt", "txt3", 80);
+            int total3 = obtenerTamanio(carpeta3); // ejecutar
+            comprobar("Prueba3", 200, total3); // comprobar
+        
+        
+             System.out.println("\n Prueba 4: \n");
+            Carpeta carpeta4 = new Carpeta("PDF 120"); // preparar
+            agregarArchivo(carpeta4, "txt", "pdf3", 120);
+            agregarArchivo(carpeta4, "txt", "txt3", 80);
+            Carpeta subcarpeta = new Carpeta("Subcarpeta");
+             agregarArchivo(subcarpeta, "txt", "pdf4", 50);
+            carpeta4.subcarpetas.add(subcarpeta);
+            int total4 = obtenerTamanio(carpeta4); // ejecutar
+            comprobar("Prueba4", 250, total4); // comprobar
+        
+        
+            System.out.println("\n Prueba 5: \n");
+            Carpeta carpeta5 = new Carpeta("Carpeta5"); // preparar
+             agregarArchivo(carpeta4, "txt", "pdf3", 0);
+            int total5 = obtenerTamanio(carpeta5); // ejecutar
+            comprobar("Carpeta5", 0, total5); // comprobar
+        
+
     }
 }
