@@ -47,6 +47,29 @@ public class Main {
 
     public static void main(String[] args) {
 
+        //Prueba del ejemplo con el paso 4
+
+        CreadorArchivo creadorPDF = new CreadorPDF();
+        CreadorArchivo creadorTexto = new CreadorTexto();
+
+        Carpeta clase = new Carpeta("Clase");
+
+        Archivo practica = creadorPDF.crearArchivo("practica.pdf", 120);
+        Archivo texto = creadorTexto.crearArchivo("notas.txt", 80);
+        clase.agregarElemento(practica);
+        clase.agregarElemento(texto);
+
+
+        Carpeta ejemplos = new Carpeta("Ejemplos");
+        Archivo ejemplo = creadorTexto.crearArchivo("ejemplo.txt", 50);
+        ejemplos.agregarElemento(ejemplo);
+        clase.agregarElemento(ejemplos);
+
+        System.out.println(clase.getTamanio());
+        enviarResultado(clase, "profesor@universidad.edu");
+        int total = clase.getTamanio();
+        comprobar("Prueba archivos del ejemplo", 250, total);
+
         //CASOS DE PRUEBA PASO 4 
 
 
