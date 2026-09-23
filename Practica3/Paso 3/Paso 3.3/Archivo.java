@@ -13,4 +13,16 @@ abstract class Archivo implements Elemento {
     }
 }
 
+class ArchivoPDF extends Archivo {
+    ArchivoPDF(String nombre, int tamanio) {
+        super(nombre, tamanio);
+    }
+}
+
+class ArchivoTexto extends Archivo {
+    ArchivoTexto(String nombre, int tamanio) {
+        super(nombre, tamanio);
+    }
+}
+
 
