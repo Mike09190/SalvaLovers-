@@ -85,7 +85,7 @@ public class Nodo{
      */
     public void insertarLlaveIndice(int indice, int llave){
         this.llaves.add(indice, llave);
-        this.numLlaves--;
+        this.numLlaves++;
     }
 
     public void setHijo(Nodo hijo){
@@ -98,9 +98,9 @@ public class Nodo{
     public void setPadre(Nodo padre){
         this.padre = padre;
     }
-        /**
+    
+    /**
      * Método auxiliar para ordenar llaves de llaves
-     * 
      */
     public void ordenar(){
     int temporal;
@@ -173,8 +173,6 @@ public class Nodo{
         nodo2.setPadre(padre);
     }
 
-    // metodos agregados para eliminar 
-
     /**
      * Elimina una llave mediante un indice
      *
@@ -188,7 +186,7 @@ public class Nodo{
     /**
      * Metodo que elimina un hijo por indice
      * 
-     * @param indice 
+     * @param int indice 
      */
     public void eliminarHijoIndice(int indice){
         this.hijos.remove(indice);
