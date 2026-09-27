@@ -97,14 +97,18 @@ public class Main {
             int total3 = carpeta3.getTamanio(); // ejecutar
             comprobar("Prueba3", 200, total3); // comprobar
         
-            //Las demás comprobaciones las prueba otro del equipo
-             System.out.println("\n Prueba 4: \n");
+        
+        System.out.println("\n Prueba 4: \n");
             Carpeta carpeta4 = new Carpeta("PDF 120"); // preparar
-            carpeta4.agregarElemento(prueba3_1);
-            carpeta4.agregarElemento(prueba3_2);
+            Archivo prueba4_1 = creadorPDF.crearArchivo("pdf4_1", 120);
+            Archivo prueba4_2 = creadorTexto.crearArchivo("text4_2", 80);
+            carpeta4.agregarElemento(prueba4_1);
+            carpeta4.agregarElemento(prueba4_2);
+            
             Carpeta subcarpeta = new Carpeta("Subcarpeta");
-            Archivo prueba4 = creadorTexto.crearArchivo("text4", 50);
-            subcarpeta.agregarElemento(prueba4);
+            Archivo prueba4_3 = creadorTexto.crearArchivo("text4", 50);
+            subcarpeta.agregarElemento(prueba4_3);
+            
             carpeta4.agregarElemento(subcarpeta);
             int total4 = carpeta4.getTamanio(); // ejecutar
             comprobar("Prueba4", 250, total4); // comprobar
@@ -115,8 +119,7 @@ public class Main {
             Archivo nulo = creadorPDF.crearArchivo("Nulo", 0);
             carpeta5.agregarElemento(nulo);
             int total5 = carpeta5.getTamanio(); // ejecutar
-            comprobar("Carpeta5", 0, total5); // comprobar
-        
+            comprobar("Prueba5", 0, total5); // comprobar
 
 
     }
