@@ -75,6 +75,7 @@ public class ArbolB{
 
     /**
      * Método auxiliar para hacer Split sobre el árbol B
+     * 
      * @param Nodo nodo el cual se realiza split
      */
     private void split(Nodo nodo){
@@ -91,22 +92,22 @@ public class ArbolB{
         nodo2.setLlave(nodo.obtenLlave(3));
     //Cuando el nodo del split no es hoja, osea tiene hijos
         if(!nodo.esHoja()){     
-                 
-            for(int i=0; i<2; i++){
+             
+            // El nodo izquierdo recibe P0, P1 y P2
+            for(int i=0; i<3; i++){
                 Nodo hijo = nodo.obtenerHijoIndice(i);
 
                 if(hijo !=null){
                     nodo1.setHijo(hijo);
-                    hijo.setPadre(nodo1);
                 }
             }
 
-            for(int j=2; j<4; j++){
+            // El nodo derecho resibe P3 y P4
+            for(int j=3; j<5; j++){
                 Nodo hijo = nodo.obtenerHijoIndice(j);
 
                 if(hijo != null){
                     nodo2.setHijo(hijo);
-                    hijo.setPadre(nodo2);
                 }
             }
         }
@@ -139,7 +140,9 @@ public class ArbolB{
     }
 
     /**
-     * Método que busca una llave dentro del Árbol B, primero comparando el elemento con el Nodo actual y luego con sus hijos si no es hoja
+     * Método que busca una llave dentro del Árbol B,
+     * primero comparando el elemento con el Nodo actual y luego con sus hijos si no es hoja
+     * 
      * @param int llave a buscar
      * @return true si la llave sí está dentro del árbol B y false si no lo encuentra
      */
@@ -160,6 +163,7 @@ public class ArbolB{
 }
     /**
      * Método recursivo que busca el Nodo donde se puede insertar un elemento
+     * 
      * @param key llave a insertar
      * @return Nodo el Nodo donde puede ir el elemento
      */
@@ -212,6 +216,7 @@ public class ArbolB{
  
     /**
      * Método recursivo para eliminar una llave del árbol B
+     * 
      * @param nodo
      * @param indice
      */
@@ -243,8 +248,10 @@ public class ArbolB{
 
     /**
      * Método auxiliar que obtiene el predecesor de un nodo
+     * 
      * @param nodo nodo del que va a buscar su hijo izq el predecesor
      * @param indice indice de llave del nodo
+     * 
      * @return int llave del predecesor
      */
     private int obtenerPredecesor(Nodo nodo, int indice){
@@ -258,8 +265,10 @@ public class ArbolB{
 
     /**
      * Método auxiliar que obtiene el sucesor de un nodo
+     * 
      * @param nodo nodo del que va a buscar su hijo der el sucesor
      * @param indice indice de llave del nodo
+     * 
      * @return int llave del sucesor
      */
     private int obtenerSucesor(Nodo nodo, int indice){
@@ -271,7 +280,12 @@ public class ArbolB{
         return hijo.obtenLlave(0);
     }
 
-
+    /**
+     * Metodo que elimina en el caso donde sea interno lo que buscar eliminar
+     * 
+     * @param nodo
+     * @param indice
+     */
     private void eliminarInterno(Nodo nodo, int indice){
         int llave = nodo.obtenLlave(indice);
 
@@ -318,7 +332,9 @@ public class ArbolB{
     }
 
     /**
+     * Metodo para reparar en caso de que haya Underflow en el arbol b
      * 
+     * @param Nodo nodo es el nodo donde se presenta este Underflow
      */
     private void repararUnderflow(Nodo nodo){
         // Caso especial en la raiz
@@ -371,7 +387,12 @@ public class ArbolB{
     }
 
     /**
+     * Metodo para redistribuye por izquierda 
      * 
+     * @param Nodo nodo
+     * @param Nodo hermonoIzquierdo
+     * @param Nodo padre
+     * @param int indiceNodo
      */
     private void redistribuirDesdeIzquierda(Nodo nodo, Nodo hermanoIzquierdo, Nodo padre, int indiceNodo){
         int indiceSeparador = indiceNodo -1;
@@ -403,7 +424,12 @@ public class ArbolB{
     }
 
     /**
+     * Metodo que redistribuye por deracha
      * 
+     * @param Nodo nodo 
+     * @param Nodo hermanoDerecho
+     * @param Nodo padre
+     * @param int indiceNodo
      */
     private void redistribuirDesdeDerecha(Nodo nodo, Nodo hermanoDerecho, Nodo padre, int indiceNodo){
         int indiceSeparador = indiceNodo;
@@ -430,7 +456,12 @@ public class ArbolB{
     }
 
     /**
+     * Metodo que funsiona los nodos, en caso de que no puedan prestar
      * 
+     * @param Nodo padre
+     * @param int indiceSeparador
+     * 
+     * @return Nodo ya fusionado
      */
     private Nodo fusionar(Nodo padre, int indiceSeparador){
         Nodo izquierdo = padre.obtenerHijoIndice(indiceSeparador);
@@ -469,7 +500,7 @@ public class ArbolB{
     }
 
     /**
-     * 
+     * Metodo para repear la raiz del arbol b
      */
     private void repararRaiz(){
         if(raiz == null){
@@ -534,4 +565,3 @@ public class ArbolB{
         }
     }
 }
-
