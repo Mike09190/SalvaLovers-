@@ -1,6 +1,15 @@
 import java.util.ArrayList;
 
-public class Nodo{
+/**
+ * Clase que representa un nodo de un Árbol B de orden 4.
+ * Almacena llaves enteras, referencias a sus hijos, una referencia
+ * a su nodo padre y la información necesaria para determinar
+ * si el nodo es una hoja.
+ *
+ * @author SalvaLovers
+ * @version 2.0
+ */
+public class Nodo {
     private ArrayList<Integer> llaves;
     private ArrayList<Nodo> hijos;
     private boolean esHoja;
@@ -8,11 +17,14 @@ public class Nodo{
     private int numLlaves;
     private int numHijos;
 
-
     /**
-     * Método constructor
+     * Metodo Constructor.
+     * 
+     * Construye un nodo vacío.
+     * Inicializa sus listas de llaves e hijos, lo marca como hoja
+     * y establece sus contadores en cero.
      */
-    public Nodo(){
+    public Nodo() {
         this.llaves = new ArrayList<>(3);
         this.hijos = new ArrayList<>(4);
         this.esHoja = true;
@@ -26,146 +38,215 @@ public class Nodo{
      * Métodos de acceso
      */
 
-    public boolean esHoja(){
+    /**
+     * Indica si el nodo es una hoja.
+     *
+     * @return true si el nodo no tiene hijos, false en otro caso
+     */
+    public boolean esHoja() {
         return this.esHoja;
     }
 
-    public Nodo getPadre(){
+    /**
+     * Regresa el nodo padre.
+     *
+     * @return padre del nodo o null si no tiene padre
+     */
+    public Nodo getPadre() {
         return this.padre;
     }
 
-    public int getNumHijos(){
+    /**
+     * Regresa la cantidad de hijos del nodo.
+     *
+     * @return número de hijos
+     */
+    public int getNumHijos() {
         return this.numHijos;
     }
 
-    public int getNumLlaves(){
+    /**
+     * Regresa la cantidad de llaves almacenadas en el nodo.
+     *
+     * @return número de llaves
+     */
+    public int getNumLlaves() {
         return this.numLlaves;
     }
 
-    public ArrayList<Nodo> getHijos(){
+    /**
+     * Regresa la lista de hijos del nodo.
+     *
+     * @return lista de nodos hijos
+     */
+    public ArrayList<Nodo> getHijos() {
         return this.hijos;
     }
 
-    public Nodo obtenerHijoIndice(int indice){
+    /**
+     * Regresa el hijo almacenado en una posición específica.
+     *
+     * @param indice posición del hijo
+     * @return nodo hijo almacenado en el índice indicado
+     */
+
+    public Nodo obtenerHijoIndice(int indice) {
         return this.hijos.get(indice);
     }
-    public int getIndiceLlave(int llave){
+
+    /**
+     * Obtiene la posición de una llave dentro del nodo.
+     *
+     * @param llave llave que se desea localizar
+     * @return índice de la llave o -1 si no se encuentra
+     */
+    public int getIndiceLlave(int llave) {
         return this.llaves.indexOf(llave);
     }
 
     /**
-     * Devuelve la posiciom de un hijo dentro del nodo
-     * @param hijo 
+     * Obtiene la posición de un hijo dentro del nodo.
+     *
+     * @param hijo nodo hijo que se desea localizar
+     * @return índice del hijo o -1 si no se encuentra
      */
-    public int getIndiceHijo(Nodo hijo){
+    public int getIndiceHijo(Nodo hijo) {
         return this.hijos.indexOf(hijo);
     }
 
-
     /**
-     * Setters
+     * Metodos modificadores
      */
 
-
-    public void setLlave(int llave){
+    /**
+     * Agrega una llave al final de la lista de llaves del nodo.
+     *
+     * @param llave llave que se desea agregar
+     */
+    public void setLlave(int llave) {
         this.llaves.add(llave);
         this.numLlaves++;
     }
+
     /**
-     * Método para reemplazar una llave en un índice específico
-     * @param int llave a reemplazar
+     * Reemplaza la llave almacenada en un índice específico.
+     *
+     * @param indice posición de la llave que se desea reemplazar
+     * @param llave  nueva llave que será almacenada
      */
-    public void setLlaveIndice(int indice, int llave){
+    public void setLlaveIndice(int indice, int llave) {
         this.llaves.set(indice, llave);
 
     }
 
     /**
-     * Inserta una nueva llave en un indice especifico.
+     * Inserta una nueva llave en una posición específica.
+     *
+     * @param indice posición donde se insertará la llave
+     * @param llave  llave que se desea insertar
      */
-    public void insertarLlaveIndice(int indice, int llave){
+    public void insertarLlaveIndice(int indice, int llave) {
         this.llaves.add(indice, llave);
         this.numLlaves++;
     }
 
-    public void setHijo(Nodo hijo){
+    /**
+     * Agrega un hijo al final de la lista de hijos del nodo.
+     * El nodo deja de considerarse hoja y el hijo recibe
+     * a este nodo como padre.
+     *
+     * @param hijo nodo que se desea agregar como hijo
+     */
+    public void setHijo(Nodo hijo) {
         this.hijos.add(hijo);
         this.numHijos++;
         this.esHoja = false;
         hijo.setPadre(this);
     }
 
-    public void setPadre(Nodo padre){
+    /**
+     * Establece el nodo padre.
+     *
+     * @param padre nuevo padre del nodo
+     */
+    public void setPadre(Nodo padre) {
         this.padre = padre;
     }
-    
+
     /**
-     * Método auxiliar para ordenar llaves de llaves
+     * Ordena de menor a mayor las llaves almacenadas en el nodo.
      */
-    public void ordenar(){
-    int temporal;
-    for(int i=0; i<numLlaves-1; i++){
-        for(int j = 0; j<numLlaves -i -1; j++){
-            if(llaves.get(j) > llaves.get(j+1)){
-                temporal = llaves.get(j);
-                llaves.set(j, llaves.get(j+1));
-                llaves.set(j+1, temporal);
+    public void ordenar() {
+        int temporal;
+        for (int i = 0; i < numLlaves - 1; i++) {
+            for (int j = 0; j < numLlaves - i - 1; j++) {
+                if (llaves.get(j) > llaves.get(j + 1)) {
+                    temporal = llaves.get(j);
+                    llaves.set(j, llaves.get(j + 1));
+                    llaves.set(j + 1, temporal);
+                }
             }
         }
+
     }
 
-}
     /**
-     * Método para buscar llave por llave dentro del nodo
-     * 
-     * @param int llave 
+     * Verifica si una llave se encuentra almacenada en el nodo.
+     *
+     * @param llave llave que se desea buscar
+     * @return true si la llave existe en el nodo, false en otro caso
      */
-    public boolean buscaLlave(int llave){
+    public boolean buscaLlave(int llave) {
         return this.llaves.contains(llave);
     }
 
     /**
-     * Método q regresa la llave de un elemento
-     * @param int indice del valor a regresar
-     * @return llave almacenada en el indice
+     * Regresa la llave almacenada en un índice específico.
+     *
+     * @param indice posición de la llave
+     * @return llave almacenada en el índice indicado
      */
-    public int obtenLlave(int indice){
+    public int obtenLlave(int indice) {
         return this.llaves.get(indice);
 
     }
 
     /**
      * Indica si el nodo no contiene llaves.
+     *
+     * @return true si el nodo está vacío, false en otro caso
      */
-    public boolean estaVacio(){
+    public boolean estaVacio() {
         return this.numLlaves == 0;
     }
-    
+
     /**
-     * Método para borrar una llave del Nodo
-     * @param llave a borrar
+     * Elimina del nodo una llave mediante su valor.
+     * Si la llave existe, también actualiza el contador de llaves.
+     *
+     * @param llave llave que se desea eliminar
      */
-    public void borraLlave(int llave){
-        if (this.llaves.remove(Integer.valueOf(llave))){
+    public void borraLlave(int llave) {
+        if (this.llaves.remove(Integer.valueOf(llave))) {
             this.numLlaves--;
         }
 
     }
 
     /**
-     * Método para reemplazar los hijos anteriores de un Nodo y poner el nuevo
-     * @param Nodo nodo hijo a eliminar
-     * @param Nodo nodo1 a insertar
-     * @param Nodo nodo2 a insertar
+     * Elimina del nodo una llave mediante su valor.
+     * Si la llave existe, también actualiza el contador de llaves.
+     *
+     * @param llave llave que se desea eliminar
      */
-    public void reemplazar(Nodo nodo, Nodo nodo1, Nodo nodo2){
+    public void reemplazar(Nodo nodo, Nodo nodo1, Nodo nodo2) {
         int pos = this.hijos.indexOf(nodo);
         Nodo padre = nodo.getPadre();
         this.hijos.remove(nodo);
         numHijos--;
 
         this.hijos.add(pos, nodo1);
-        this.hijos.add(pos+1, nodo2);
+        this.hijos.add(pos + 1, nodo2);
 
         numHijos += 2;
 
@@ -174,36 +255,54 @@ public class Nodo{
     }
 
     /**
-     * Elimina una llave mediante un indice
+     * Elimina una llave utilizando su índice.
      *
-     * @param indice de la llave a eliminar 
+     * @param indice posición de la llave que se desea eliminar
      */
-    public void eliminarLlaveIndice(int indice){
+    public void eliminarLlaveIndice(int indice) {
         this.llaves.remove(indice);
         this.numLlaves--;
     }
 
     /**
-     * Metodo que elimina un hijo por indice
-     * 
-     * @param int indice 
+     * Elimina un hijo mediante su índice.
+     * Si después de eliminarlo el nodo queda sin hijos,
+     * el nodo pasa a considerarse una hoja.
+     *
+     * @param indice posición del hijo que se desea eliminar
      */
-    public void eliminarHijoIndice(int indice){
+    public void eliminarHijoIndice(int indice) {
         this.hijos.remove(indice);
         this.numHijos--;
-        if(this.hijos.isEmpty()){
+        if (this.hijos.isEmpty()) {
             this.esHoja = true;
         }
     }
 
-    public void insertarHijoIndice(int indice, Nodo hijo){
+    /**
+     * Inserta un hijo en una posición específica.
+     * El nodo deja de considerarse hoja y el hijo recibe
+     * a este nodo como padre.
+     *
+     * @param indice posición donde se insertará el hijo
+     * @param hijo   nodo que se desea insertar
+     */
+    public void insertarHijoIndice(int indice, Nodo hijo) {
         this.hijos.add(indice, hijo);
         this.numHijos++;
         this.esHoja = false;
         hijo.setPadre(this);
     }
 
-    public void agregarHijoAlInicio(Nodo hijo){
+    /**
+     * Inserta un hijo al inicio de la lista de hijos.
+     * Se utiliza durante la redistribución desde un hermano izquierdo.
+     * El nodo deja de considerarse hoja y se actualiza la referencia
+     * al padre del hijo.
+     *
+     * @param hijo nodo que se desea insertar al inicio
+     */
+    public void agregarHijoAlInicio(Nodo hijo) {
         this.hijos.add(0, hijo);
         this.numHijos++;
         this.esHoja = false;
@@ -211,13 +310,13 @@ public class Nodo{
     }
 
     /**
-    * Imprime las llaves almacenadas en el nodo.
-    */
-    public void imprimirNodo(){
+     * Imprime las llaves almacenadas en el nodo.
+     */
+    public void imprimirNodo() {
         System.out.print("[");
-        for(int i = 0; i < this.numLlaves; i++){
+        for (int i = 0; i < this.numLlaves; i++) {
             System.out.print(this.llaves.get(i));
-            if(i < this.numLlaves - 1){
+            if (i < this.numLlaves - 1) {
                 System.out.print(" | ");
             }
         }
