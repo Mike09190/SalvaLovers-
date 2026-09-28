@@ -1,8 +1,18 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class ArbolB{
+/**
+ * Clase que representa un Árbol B de orden fijo m = 4.
+ * Almacena llaves enteras y mantiene sus propiedades mediante
+ * operaciones de búsqueda, inserción, división, eliminación,
+ * redistribución y fusión de nodos.
+ *
+ * @author SalvaLovers
+ * @version 2.0
+ */
+public class ArbolB {
 
+    // Atributos
     private Nodo raiz;
     private int m;
     private int r;
@@ -12,48 +22,76 @@ public class ArbolB{
     /**
      * Método constructor
      */
-
-    public ArbolB(){
+    public ArbolB() {
         this.raiz = null;
         this.m = 4;
-        this.r = m-1;
-        this.q = (m/2) - 1;
-        this.numNiveles = 0; 
+        this.r = m - 1;
+        this.q = (m / 2) - 1;
+        this.numNiveles = 0;
     }
 
-    /**
-     * Getters
-     */
+    // -- Getters --
 
-    public Nodo getRaiz(){
+    /**
+     * Regresa la raíz actual del árbol.
+     *
+     * @return Nodo raíz del árbol o null si el árbol está vacío
+     */
+    public Nodo getRaiz() {
         return this.raiz;
     }
 
-    public int getM(){
+    /**
+     * Regresa el orden del Árbol B.
+     *
+     * @return int orden m del árbol
+     */
+    public int getM() {
         return this.m;
     }
 
-    public int getR(){
+    /**
+     * Regresa el numero maximo de llaves permitido por nodo
+     * 
+     * @return int maximo de llaves por nodo
+     */
+    public int getR() {
         return this.r;
     }
 
-    public int getQ(){
+    /**
+     * Regresa el numero minimo de llaves permitido en un nodo
+     * distinto de la raíz
+     * 
+     * @return int minimo de llaves por nodo
+     */
+    public int getQ() {
         return this.q;
     }
 
-    public int getNumNiveles(){
+    /**
+     * Regresa la cantidad de niveles actuales del arbol
+     * 
+     * @return int numero de niveles del Arbol B
+     */
+    public int getNumNiveles() {
         return this.numNiveles;
     }
+
     /**
-     * Método insertar
+     * Inserta una llave entera en el Arbol B
+     * Si el arbol esta vacio crea la raíz.
+     * Si la llave ya existe, el arbol no se modifica.
+     * Despues de insertar, realiza un split cuando el nodo
+     * supere el maximo de llaves permitido.
      * 
-     * @param int llave
+     * @param llave llave que se desea insertar
      */
 
-    public void insertar(int llave){
+    public void insertar(int llave) {
 
-        //Si no hay raíz
-        if(this.raiz == null){
+        // Si no hay raíz
+        if (this.raiz == null) {
             Nodo nuevo = new Nodo();
             nuevo.setLlave(llave);
             this.raiz = nuevo;
@@ -62,24 +100,29 @@ public class ArbolB{
         }
 
         Nodo nodo = buscarNodo(llave);
-        if(nodo.buscaLlave(llave)){
+        if (nodo.buscaLlave(llave)) {
             return;
         }
         nodo.setLlave(llave);
         nodo.ordenar();
-        if(nodo.getNumLlaves() > r){
+        if (nodo.getNumLlaves() > r) {
             split(nodo);
         }
     }
 
-
     /**
      * Método auxiliar para hacer Split sobre el árbol B
+     * Divide el nodo que ha superado el maximo de llaves permitido.
+     * La tercera llave se promueve al padre, las llaves restantes,
+     * se distribuyen entre dos nuevos nodos y, si es necesario, el
+     * split se propaga hacia arriba.
      * 
-     * @param Nodo nodo el cual se realiza split
+     * Si el nodo dividio es la raíz, se crea una nueva raíz.
+     * 
+     * @param Nodo nodo desbordado que sera dividido
      */
-    private void split(Nodo nodo){
-        
+    private void split(Nodo nodo) {
+
         int k3 = nodo.obtenLlave(2);
 
         Nodo padre = nodo.getPadre();
@@ -90,40 +133,40 @@ public class ArbolB{
         nodo1.setLlave(nodo.obtenLlave(1));
 
         nodo2.setLlave(nodo.obtenLlave(3));
-    //Cuando el nodo del split no es hoja, osea tiene hijos
-        if(!nodo.esHoja()){     
-             
+        // Cuando el nodo del split no es hoja, osea tiene hijos
+        if (!nodo.esHoja()) {
+
             // El nodo izquierdo recibe P0, P1 y P2
-            for(int i=0; i<3; i++){
+            for (int i = 0; i < 3; i++) {
                 Nodo hijo = nodo.obtenerHijoIndice(i);
 
-                if(hijo !=null){
+                if (hijo != null) {
                     nodo1.setHijo(hijo);
                 }
             }
 
-            // El nodo derecho resibe P3 y P4
-            for(int j=3; j<5; j++){
+            // El nodo derecho recibe P3 y P4
+            for (int j = 3; j < 5; j++) {
                 Nodo hijo = nodo.obtenerHijoIndice(j);
 
-                if(hijo != null){
+                if (hijo != null) {
                     nodo2.setHijo(hijo);
                 }
             }
         }
 
-        //Cuando tiene padre
-        if(nodo.getPadre() != null){
+        // Cuando tiene padre
+        if (nodo.getPadre() != null) {
             padre.setLlave(k3);
             padre.ordenar();
             padre.reemplazar(nodo, nodo1, nodo2);
-            if(padre.getNumLlaves() > r){
-                split(padre); //Hacemos recursión en caso de que el padre requiera un split
+            if (padre.getNumLlaves() > r) {
+                split(padre); // Hacemos recursión en caso de que el padre requiera un split
             }
         }
-        
-           //Cuando no tiene padre
-        else{
+
+        // Cuando no tiene padre
+        else {
             Nodo nuevaRaiz = new Nodo();
 
             nuevaRaiz.setLlave(k3);
@@ -141,12 +184,14 @@ public class ArbolB{
 
     /**
      * Método que busca una llave dentro del Árbol B,
-     * primero comparando el elemento con el Nodo actual y luego con sus hijos si no es hoja
+     * La busqueda comienza en la raíz y continua únicamente por
+     * el hijo correspondiente al intervalo donde puede encontrarse
+     * la llave.
      * 
-     * @param int llave a buscar
-     * @return true si la llave sí está dentro del árbol B y false si no lo encuentra
+     * @param llave llave que se desea buscar
+     * @return true si la llave existe en el arbol, false en otro caso
      */
-    public boolean buscar(int llave){
+    public boolean buscar(int llave) {
         Nodo nodoActual = this.raiz;
 
         // Caso base árbol vacío
@@ -154,124 +199,142 @@ public class ArbolB{
             return false;
         }
 
-        //Usamos el método auxiliar para buscar el nodo donde se encuentra la llave
+        // Usamos el método auxiliar para buscar el nodo donde se encuentra la llave
         Nodo nodo = buscarNodo(llave);
-        if (nodo != null && nodo.buscaLlave(llave)){
+        if (nodo != null && nodo.buscaLlave(llave)) {
             return true;
         }
         return false;
-}
+    }
+
     /**
-     * Método recursivo que busca el Nodo donde se puede insertar un elemento
+     * Método que busca el Nodo
+     * Inicia desde la raíz la busqueda del nodo que contiene una llave
+     * o de la hoja donde dicha llave debería encontrarse.
      * 
-     * @param key llave a insertar
-     * @return Nodo el Nodo donde puede ir el elemento
+     * @param key llave que se desea localizar
+     * @return Nodo nodo que contiene la llave o la hoja correspondiente
      */
-    private Nodo buscarNodo(int key){
+    private Nodo buscarNodo(int key) {
         return buscarNodoRecursivo(this.raiz, key);
     }
 
     /**
-     * Método auxiliar que devuelve el Nodo donde se puede insertar un elemento
-     * @param Nodo nodo donde se busca si es hoja
-     * @param key llave a insertar
-     * @return Nodo el Nodo donde puede ir el elemento
+     * Método auxiliar
+     * Busca recursivamente el nodo correspondiente a una llave.
+     * En cada nodo determina el intervalo adecuado y continua
+     * únicamente por el hijo acosiado a ese intervalo.
+     * 
+     * @param nodoActual nodo desde el cual comienza la busqueda
+     * @param key        llave que se desea localizar
+     * @return nodo que contiene la llave o la hoja donde deberia encontrarse
      */
-    private Nodo buscarNodoRecursivo(Nodo nodoActual, int key){
-        //Caso base 1. La raíz tiene menos de r elementos
-        if(nodoActual.esHoja()){
+    private Nodo buscarNodoRecursivo(Nodo nodoActual, int key) {
+        // Caso base 1. llegamos a una hoja
+        if (nodoActual.esHoja()) {
             return nodoActual;
         }
-        //Caso base 2, el nodo ya posee al elemento que se quiere insertar
-        if(nodoActual.buscaLlave(key)){
+        // Caso base 2, el nodo ya posee al elemento que se quiere insertar
+        if (nodoActual.buscaLlave(key)) {
             return nodoActual;
         }
 
-        //Recursividad bajar a sus hijos por condiciones
+        // Determinamos el intervalo y continuamos por el hijo correspondiente
         int indice = 0;
-        while(indice < nodoActual.getNumLlaves() && key > nodoActual.obtenLlave(indice)){
-            indice ++;
+        while (indice < nodoActual.getNumLlaves() && key > nodoActual.obtenLlave(indice)) {
+            indice++;
         }
-        Nodo hijo = nodoActual.obtenerHijoIndice(indice); 
-        return buscarNodoRecursivo(hijo, key);  
+        Nodo hijo = nodoActual.obtenerHijoIndice(indice);
+        return buscarNodoRecursivo(hijo, key);
     }
 
+    /**
+     * Elimina una llave del Arbol B
+     * Si la llave no existe el arbol no se modifica
+     * Cuando la llave existe, incia el proceso de eliminacion y
+     * si es necesario, repara posibles subocupaciones-
+     * 
+     * @param llave llave que se desea eliminar
+     */
+    public void eliminar(int llave) {
 
-    public void eliminar(int llave){
-
-        //Verificar si existe un árbol
-        if(this.raiz == null){
+        // Verificar si existe un árbol
+        if (this.raiz == null) {
             return;
         }
-        Nodo nodo = buscarNodo(llave); //Devuelve el nodo donde se puede encontrar la llave
+        Nodo nodo = buscarNodo(llave); // Devuelve el nodo donde se puede encontrar la llave
 
         // Si la llave no existe, no modificamos nada.
-        if(nodo == null || !nodo.buscaLlave(llave)){
+        if (nodo == null || !nodo.buscaLlave(llave)) {
             return;
         }
 
-        //Llamamos al método recursivo para eliminar una llave
+        // Llamamos al método recursivo para eliminar una llave
         eliminarRecursivo(nodo, llave);
     }
- 
-    /**
-     * Método recursivo para eliminar una llave del árbol B
-     * 
-     * @param nodo
-     * @param indice
-     */
-    private void eliminarRecursivo(Nodo nodo, int llave){
 
-        //Caso 1: La llave esta en una hoja
-        if(nodo.esHoja()){
+    /**
+     * Elimina recursivamente una llave.
+     * Si se encuentra en una hoja, la elimina directamente y comprueba
+     * si aparece subocupación. Si se encuentra en un nodo interno,
+     * delega el proceso a eliminarInterno
+     * 
+     * @param nodo  nodo donde se encuentra la llave
+     * @param llave llave que se desea eliminar
+     */
+    private void eliminarRecursivo(Nodo nodo, int llave) {
+
+        // Caso 1: La llave esta en una hoja
+        if (nodo.esHoja()) {
             nodo.borraLlave(llave);
-            
+
             // Si la raiz tiene tratamiento especial
-            if(nodo == raiz){
+            if (nodo == raiz) {
                 repararRaiz();
                 return;
             }
 
             // Si quedo por debajo del minimo
-            if(nodo.getNumLlaves() < q){
+            if (nodo.getNumLlaves() < q) {
                 repararUnderflow(nodo);
             }
             return;
         }
-        
+
         // Caso 2: la llave esta en un nodo interno.
         int indice = nodo.getIndiceLlave(llave);
         eliminarInterno(nodo, indice);
-        
+
     }
 
-
     /**
-     * Método auxiliar que obtiene el predecesor de un nodo
-     * 
-     * @param nodo nodo del que va a buscar su hijo izq el predecesor
-     * @param indice indice de llave del nodo
-     * 
-     * @return int llave del predecesor
+     * Obtiene el predecesor de una llave almacenada en un nodo interno.
+     * Para encontrarlo, desciende por el subárbol izquierdo y continúa
+     * por los hijos más a la derecha hasta llegar a una hoja.
+     *
+     * @param nodo   nodo que contiene la llave
+     * @param indice índice de la llave dentro del nodo
+     * @return llave predecesora
      */
-    private int obtenerPredecesor(Nodo nodo, int indice){
+    private int obtenerPredecesor(Nodo nodo, int indice) {
 
         Nodo hijo = nodo.obtenerHijoIndice(indice);
         while (!hijo.esHoja()) {
-        hijo = hijo.obtenerHijoIndice(hijo.getNumHijos() - 1);
+            hijo = hijo.obtenerHijoIndice(hijo.getNumHijos() - 1);
         }
         return hijo.obtenLlave(hijo.getNumLlaves() - 1);
     }
 
     /**
-     * Método auxiliar que obtiene el sucesor de un nodo
-     * 
-     * @param nodo nodo del que va a buscar su hijo der el sucesor
-     * @param indice indice de llave del nodo
-     * 
-     * @return int llave del sucesor
+     * Obtiene el sucesor de una llave almacenada en un nodo interno.
+     * Para encontrarlo, desciende por el subárbol derecho y continúa
+     * por los hijos más a la izquierda hasta llegar a una hoja.
+     *
+     * @param nodo   nodo que contiene la llave
+     * @param indice índice de la llave dentro del nodo
+     * @return llave sucesora
      */
-    private int obtenerSucesor(Nodo nodo, int indice){
+    private int obtenerSucesor(Nodo nodo, int indice) {
         Nodo hijo = nodo.obtenerHijoIndice(indice + 1);
 
         while (!hijo.esHoja()) {
@@ -281,19 +344,23 @@ public class ArbolB{
     }
 
     /**
-     * Metodo que elimina en el caso donde sea interno lo que buscar eliminar
-     * 
-     * @param nodo
-     * @param indice
+     * Elimina una llave almacenada en un nodo interno.
+     * Primero intenta sustituirla por su predecesor. Si el hijo izquierdo
+     * no dispone de una llave adicional, intenta utilizar el sucesor.
+     * Si ninguno puede utilizarse, fusiona los dos hijos junto con
+     * la llave que se desea eliminar.
+     *
+     * @param nodo   nodo interno que contiene la llave
+     * @param indice índice de la llave dentro del nodo
      */
-    private void eliminarInterno(Nodo nodo, int indice){
+    private void eliminarInterno(Nodo nodo, int indice) {
         int llave = nodo.obtenLlave(indice);
 
         Nodo hijoIzquierdo = nodo.obtenerHijoIndice(indice);
         Nodo hijoDerecho = nodo.obtenerHijoIndice(indice + 1);
 
         // Caso 1: intentamos primero con el predecesor
-        if(hijoIzquierdo.getNumLlaves() > q){
+        if (hijoIzquierdo.getNumLlaves() > q) {
             int predecesor = obtenerPredecesor(nodo, indice);
 
             // Sustituimos la llave interna
@@ -305,7 +372,7 @@ public class ArbolB{
         }
 
         // Caso 2: si el izquierdo no puede intentamos con el sucesor
-        if(hijoDerecho.getNumLlaves() > q){
+        if (hijoDerecho.getNumLlaves() > q) {
             int sucesor = obtenerSucesor(nodo, indice);
 
             nodo.setLlaveIndice(indice, sucesor);
@@ -324,81 +391,91 @@ public class ArbolB{
 
         // La fusión eliminó una llave del nodo padre,
         // así que ese padre también puede quedar subocupado.
-        if(nodo == raiz){
+        if (nodo == raiz) {
             repararRaiz();
-        }else if(nodo.getNumLlaves() < q){
+        } else if (nodo.getNumLlaves() < q) {
             repararUnderflow(nodo);
         }
     }
 
     /**
-     * Metodo para reparar en caso de que haya Underflow en el arbol b
-     * 
-     * @param Nodo nodo es el nodo donde se presenta este Underflow
+     * Repara la subocupación de un nodo que contiene menos llaves
+     * que el mínimo permitido.
+     *
+     * Primero intenta redistribuir utilizando el hermano izquierdo,
+     * después el hermano derecho y, si ninguno puede prestar una llave,
+     * realiza una fusión. La reparación puede propagarse hacia el padre.
+     *
+     * @param nodo nodo que presenta subocupación
      */
-    private void repararUnderflow(Nodo nodo){
+    private void repararUnderflow(Nodo nodo) {
         // Caso especial en la raiz
-        if(nodo == raiz){
+        if (nodo == raiz) {
             repararRaiz();
             return;
         }
-        
+
         // Si ya cumple el minimo no hacemos nada
-        if(nodo.getNumLlaves() >= q){
+        if (nodo.getNumLlaves() >= q) {
             return;
         }
 
         Nodo padre = nodo.getPadre();
         int indiceNodo = padre.getHijos().indexOf(nodo);
 
-        // 1. insertar con el hermano izquierod
-        if(indiceNodo > 0){
+        // 1. Intentar redistribuir con el hermano izquierdo
+        if (indiceNodo > 0) {
             Nodo hermanoIzquierdo = padre.obtenerHijoIndice(indiceNodo - 1);
 
-            if(hermanoIzquierdo.getNumLlaves() > q){
+            if (hermanoIzquierdo.getNumLlaves() > q) {
                 redistribuirDesdeIzquierda(nodo, hermanoIzquierdo, padre, indiceNodo);
                 return;
             }
         }
 
         // 2. Si el izquierdo no pudo intentamos con el derecho
-        if(indiceNodo < padre.getNumHijos()-1){
+        if (indiceNodo < padre.getNumHijos() - 1) {
             Nodo hermanoDerecho = padre.obtenerHijoIndice(indiceNodo + 1);
 
-            if( hermanoDerecho.getNumLlaves() > q){
+            if (hermanoDerecho.getNumLlaves() > q) {
                 redistribuirDesdeDerecha(nodo, hermanoDerecho, padre, indiceNodo);
                 return;
             }
         }
 
         // 3. Ninguno puede prestar hay que fusionar
-        if(indiceNodo > 0){
+        if (indiceNodo > 0) {
             fusionar(padre, indiceNodo - 1);
         } else {
             fusionar(padre, indiceNodo);
         }
 
         // La fusión eliminó una llave del padre, así que revisamos ahora al padre.
-        if(padre == raiz){
+        if (padre == raiz) {
             repararRaiz();
-        }else if(padre.getNumLlaves() < q){
+        } else if (padre.getNumLlaves() < q) {
             repararUnderflow(padre);
         }
     }
 
     /**
-     * Metodo para redistribuye por izquierda 
-     * 
-     * @param Nodo nodo
-     * @param Nodo hermonoIzquierdo
-     * @param Nodo padre
-     * @param int indiceNodo
+     * Repara una subocupación utilizando una llave del hermano izquierdo.
+     * La última llave del hermano izquierdo sube al padre y la llave
+     * separadora del padre baja al nodo subocupado.
+     *
+     * Si los nodos son internos, también se transfiere el último hijo
+     * del hermano izquierdo.
+     *
+     * @param nodo             nodo que presenta subocupación
+     * @param hermanoIzquierdo hermano izquierdo que presta una llave
+     * @param padre            padre común de ambos nodos
+     * @param indiceNodo       posición del nodo subocupado dentro del padre
      */
-    private void redistribuirDesdeIzquierda(Nodo nodo, Nodo hermanoIzquierdo, Nodo padre, int indiceNodo){
-        int indiceSeparador = indiceNodo -1;
+    private void redistribuirDesdeIzquierda(Nodo nodo, Nodo hermanoIzquierdo, Nodo padre, int indiceNodo) {
+        int indiceSeparador = indiceNodo - 1;
         int llavePadre = padre.obtenLlave(indiceSeparador);
 
-        int indiceUltimaLlave = hermanoIzquierdo.getNumLlaves() -1;
+        int indiceUltimaLlave = hermanoIzquierdo.getNumLlaves() - 1;
         int llaveHermano = hermanoIzquierdo.obtenLlave(indiceUltimaLlave);
 
         // la llave del padre baja al nodo
@@ -412,8 +489,8 @@ public class ArbolB{
         hermanoIzquierdo.eliminarLlaveIndice(indiceUltimaLlave);
 
         // si no son hojas tambien debemos mover un hijo
-        if(!hermanoIzquierdo.esHoja()){
-            int indiceHijo = hermanoIzquierdo.getNumHijos() -1;
+        if (!hermanoIzquierdo.esHoja()) {
+            int indiceHijo = hermanoIzquierdo.getNumHijos() - 1;
 
             Nodo hijoPrestado = hermanoIzquierdo.obtenerHijoIndice(indiceHijo);
 
@@ -424,14 +501,19 @@ public class ArbolB{
     }
 
     /**
-     * Metodo que redistribuye por deracha
-     * 
-     * @param Nodo nodo 
-     * @param Nodo hermanoDerecho
-     * @param Nodo padre
-     * @param int indiceNodo
+     * Repara una subocupación utilizando una llave del hermano derecho.
+     * La primera llave del hermano derecho sube al padre y la llave
+     * separadora del padre baja al nodo subocupado.
+     *
+     * Si los nodos son internos, también se transfiere el primer hijo
+     * del hermano derecho.
+     *
+     * @param nodo           nodo que presenta subocupación
+     * @param hermanoDerecho hermano derecho que presta una llave
+     * @param padre          padre común de ambos nodos
+     * @param indiceNodo     posición del nodo subocupado dentro del padre
      */
-    private void redistribuirDesdeDerecha(Nodo nodo, Nodo hermanoDerecho, Nodo padre, int indiceNodo){
+    private void redistribuirDesdeDerecha(Nodo nodo, Nodo hermanoDerecho, Nodo padre, int indiceNodo) {
         int indiceSeparador = indiceNodo;
         int llavePadre = padre.obtenLlave(indiceSeparador);
 
@@ -445,8 +527,9 @@ public class ArbolB{
         padre.setLlaveIndice(indiceSeparador, llaveHermano);
         hermanoDerecho.eliminarLlaveIndice(0);
 
-        // si son nodos internos el primer hijo del hermano derecho pasa al final del nodo
-        if(!hermanoDerecho.esHoja()){
+        // si son nodos internos el primer hijo del hermano derecho pasa al final del
+        // nodo
+        if (!hermanoDerecho.esHoja()) {
             Nodo hijoPrestado = hermanoDerecho.obtenerHijoIndice(0);
             hermanoDerecho.eliminarHijoIndice(0);
 
@@ -456,14 +539,18 @@ public class ArbolB{
     }
 
     /**
-     * Metodo que funsiona los nodos, en caso de que no puedan prestar
-     * 
-     * @param Nodo padre
-     * @param int indiceSeparador
-     * 
-     * @return Nodo ya fusionado
+     * Fusiona dos hijos consecutivos de un mismo padre.
+     *
+     * La llave separadora del padre baja al hijo izquierdo. Después,
+     * las llaves y los hijos del nodo derecho se transfieren al izquierdo.
+     * Finalmente, el padre elimina la llave separadora y la referencia
+     * al nodo derecho.
+     *
+     * @param padre           nodo padre que contiene la llave separadora
+     * @param indiceSeparador índice de la llave que separa los dos hijos
+     * @return nodo izquierdo resultante de la fusión
      */
-    private Nodo fusionar(Nodo padre, int indiceSeparador){
+    private Nodo fusionar(Nodo padre, int indiceSeparador) {
         Nodo izquierdo = padre.obtenerHijoIndice(indiceSeparador);
         Nodo derecho = padre.obtenerHijoIndice(indiceSeparador + 1);
 
@@ -473,7 +560,7 @@ public class ArbolB{
         izquierdo.setLlave(separador);
 
         // pasamos todas las llaves del nodo derecho
-        while(derecho.getNumLlaves() > 0){
+        while (derecho.getNumLlaves() > 0) {
             int llave = derecho.obtenLlave(0);
 
             izquierdo.setLlave(llave);
@@ -493,28 +580,30 @@ public class ArbolB{
         // el padre pierde la llave separadora
         padre.eliminarLlaveIndice(indiceSeparador);
 
-        // y pierde el hijo derecho porque fue absorbido 
+        // y pierde el hijo derecho porque fue absorbido
         padre.eliminarHijoIndice(indiceSeparador + 1);
-        
+
         return izquierdo;
     }
 
     /**
-     * Metodo para repear la raiz del arbol b
+     * Repara el caso especial de una raíz que queda sin llaves.
+     *
+     * Si conserva un único hijo, dicho hijo se convierte en la nueva raíz
+     * y la altura del árbol disminuye. Si no tiene hijos, el árbol queda
+     * vacío.
      */
-    private void repararRaiz(){
-        if(raiz == null){
+    private void repararRaiz() {
+        if (raiz == null) {
             return;
         }
         // si todavia tiene llaves no hay nada que hacer
-        if(raiz.getNumLlaves() > 0){
+        if (raiz.getNumLlaves() > 0) {
             return;
         }
-        /**
-         * Raiz con llave pero con un hijo 
-         * ese hijo se convierte en la nueva llave
-         */
-        if(raiz.getNumHijos() == 1){
+
+        // Raíz sin llaves y con un único hijo: el hijo se convierte en la nueva raíz
+        if (raiz.getNumHijos() == 1) {
             Nodo nuevaRaiz = raiz.obtenerHijoIndice(0);
             nuevaRaiz.setPadre(null);
 
@@ -524,14 +613,16 @@ public class ArbolB{
         }
 
         // raiz sin llaves y sin hijos el arbol queda vacio
-        if(raiz.getNumHijos() == 0){
+        if (raiz.getNumHijos() == 0) {
             raiz = null;
             numNiveles = 0;
         }
     }
 
     /**
-     * Imprime el árbol B por niveles.
+     * Imprime el Árbol B nivel por nivel, de izquierda a derecha.
+     * Utiliza una cola para realizar un recorrido por amplitud y muestra
+     * las llaves contenidas en cada nodo.
      */
     public void imprimirPorNiveles() {
         if (this.raiz == null) {
