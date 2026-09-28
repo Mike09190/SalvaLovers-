@@ -1,4 +1,4 @@
-# Práctica 3 — Árbol B
+# Práctica 2 — Árbol B
 
 Implementación de un **Árbol B** utilizando Java, con el propósito de estudiar el almacenamiento ordenado de llaves, la búsqueda por intervalos y el balanceo de la estructura mediante divisiones, redistribuciones y fusiones.
 
