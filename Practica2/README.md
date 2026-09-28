@@ -1,6 +1,6 @@
 # Práctica 3 — Árbol B
 
-Implementación de un **Árbol B ** utilizando Java, con el propósito de estudiar el almacenamiento ordenado de llaves, la búsqueda por intervalos y el balanceo de la estructura mediante divisiones, redistribuciones y fusiones.
+Implementación de un **Árbol B** utilizando Java, con el propósito de estudiar el almacenamiento ordenado de llaves, la búsqueda por intervalos y el balanceo de la estructura mediante divisiones, redistribuciones y fusiones.
 
 ---
 
@@ -21,11 +21,13 @@ Implementación de un **Árbol B ** utilizando Java, con el propósito de estudi
 
 ## Estructura del programa
 
-El programa se basa principalmente en las clases `Nodo` y `ArbolB`.
+El programa se basa principalmente en las clases `Nodo`, `ArbolB` y `Main`.
 
 La clase `Nodo` representa cada uno de los nodos que forman el árbol. Cada nodo contiene una lista de **llaves enteras ordenadas** y una lista de referencias a sus **hijos**. También conserva una referencia a su nodo padre, un indicador para saber si es una hoja y contadores para registrar la cantidad de llaves e hijos.
 
-La clase `ArbolB` se encarga de administrar la raíz y las operaciones principales de la estructura. En ella se realiza la búsqueda del intervalo correcto, la inserción de nuevas llaves, la división de nodos desbordados y la eliminación con reparación de subocupaciones.
+La clase `ArbolB` se encarga de administrar la raíz y las operaciones principales de la estructura. En ella se realiza la búsqueda del intervalo correcto, la inserción de nuevas llaves, la división de nodos desbordados, la eliminación de llaves y la reparación de subocupaciones mediante redistribución o fusión.
+
+La clase `Main` proporciona un menú interactivo para ejecutar las operaciones del árbol y una opción adicional para ejecutar la secuencia principal de prueba indicada en la práctica.
 
 De forma general, un nodo se representa de la siguiente manera:
 
@@ -68,29 +70,52 @@ Si se utiliza un entorno de desarrollo, basta con ejecutar directamente la clase
 
 ## Menú interactivo y pruebas
 
-La comprobación del funcionamiento se realiza mediante un **menú interactivo**. Al ejecutar la clase `Main` se muestran las siguientes opciones:
+La comprobación del funcionamiento se realiza mediante un **menú interactivo**.
+
+Al ejecutar la clase `Main` se muestran las siguientes opciones:
 
 ```text
-1) Insertar(x)
-2) Buscar(x)
-3) Eliminar(x)
-4) Imprimir el árbol
-5) Salir
+1) Insertar una llave
+2) Buscar una llave
+3) Eliminar una llave
+4) Imprimir árbol
+5) Ejecutar prueba obligatoria
+6) Salir
 ```
 
 Desde este menú se pueden utilizar las operaciones implementadas en el árbol y observar el resultado después de cada acción.
 
-Para verificar el programa se recomienda probar desde el menú:
+El programa también valida que las llaves ingresadas sean números enteros. Si el usuario introduce una entrada inválida, se solicita nuevamente una llave válida sin finalizar la ejecución del programa.
 
-- la inserción de varias llaves en distinto orden;
-- la búsqueda de llaves existentes e inexistentes;
-- la impresión del árbol para observar sus niveles;
-- la inserción de suficientes llaves para provocar una división;
-- la eliminación de llaves que no produzcan subocupación;
-- la eliminación de llaves que requieran redistribución o fusión;
-- el intento de insertar una llave repetida, comprobando que el árbol no cambie.
+Además:
 
-Después de cada operación se puede imprimir el árbol y comprobar que las llaves de cada nodo continúen ordenadas, que ningún nodo conserve más de tres llaves y que todas las hojas permanezcan en el mismo nivel.
+- no se insertan llaves duplicadas;
+- no se intenta eliminar una llave inexistente;
+- las búsquedas indican si la llave se encuentra o no en el árbol;
+- el árbol puede imprimirse por niveles para observar su estructura.
+
+---
+
+## Impresión del árbol por niveles
+
+El método `imprimirPorNiveles()` permite visualizar el contenido del Árbol B de izquierda a derecha y nivel por nivel.
+
+Para realizar este recorrido se utiliza una cola auxiliar.
+
+Una salida posible es:
+
+```text
+Nivel 0: [45]
+Nivel 1: [15 | 30] [60]
+Nivel 2: [5 | 10] [20 | 25] [35 | 40] [50] [70]
+```
+
+Esta impresión permite comprobar visualmente:
+
+- las llaves contenidas en cada nodo;
+- los nodos pertenecientes a cada nivel;
+- el orden de los nodos de izquierda a derecha;
+- el resultado de las inserciones, divisiones, redistribuciones y fusiones.
 
 ---
 
@@ -183,7 +208,27 @@ Después del split:
 
 La llave `30` se promueve al padre. Si el padre también alcanza cuatro llaves, el proceso se repite hacia arriba. Cuando el nodo dividido es la raíz, se crea una nueva raíz y aumenta la altura del árbol.
 
-Si el nodo dividido no es una hoja, también deben repartirse sus hijos de acuerdo con los intervalos de los dos nuevos nodos.
+Si el nodo dividido no es una hoja, también deben repartirse sus hijos.
+
+Un nodo interno con cuatro llaves tiene temporalmente cinco hijos:
+
+```text
+[k1 | k2 | k3 | k4]
+
+ P0   P1   P2   P3   P4
+```
+
+Al promover `k3`, los hijos se distribuyen de la siguiente manera:
+
+```text
+              [k3]
+             /    \
+      [k1 | k2]   [k4]
+
+       P0 P1 P2    P3 P4
+```
+
+De esta manera se conservan correctamente los intervalos del Árbol B.
 
 ---
 
@@ -193,7 +238,13 @@ La eliminación comienza buscando la llave dentro del árbol.
 
 Si la llave se encuentra en una hoja, puede eliminarse directamente. Después se comprueba que el nodo conserve al menos una llave.
 
-Si la llave se encuentra en un nodo interno, se intenta reemplazar por su **predecesor**. Cuando no es posible utilizarlo, se intenta reemplazar por su **sucesor**. Si ninguno de los dos hijos correspondientes tiene una llave de sobra, se realiza una fusión y la eliminación continúa en el nodo fusionado.
+Si la llave se encuentra en un nodo interno, se siguen las siguientes reglas:
+
+1. se intenta sustituir la llave por su **predecesor** si el hijo izquierdo tiene una llave de sobra;
+2. si no es posible, se intenta sustituirla por su **sucesor** si el hijo derecho tiene una llave de sobra;
+3. si ninguno de los dos hijos puede prestar, se realiza una fusión.
+
+Después de sustituir una llave interna, la eliminación continúa en la hoja donde se encontraba realmente el predecesor o sucesor.
 
 Si un nodo distinto de la raíz queda con cero llaves, se produce una subocupación. Para corregirla se utiliza redistribución o fusión.
 
@@ -207,21 +258,83 @@ El movimiento debe pasar por el padre:
 hermano → padre → nodo subocupado
 ```
 
-Una llave del hermano sube al padre y la llave separadora del padre baja al nodo que se está reparando. De esta manera se conservan correctamente los intervalos del árbol.
+Una llave del hermano sube al padre y la llave separadora del padre baja al nodo que se está reparando.
 
 Primero se intenta redistribuir con el hermano izquierdo y, si no es posible, con el hermano derecho.
 
+Cuando los nodos involucrados no son hojas, también se transfiere la referencia al hijo correspondiente para conservar correctamente los intervalos.
+
 ### Fusión
 
-La fusión se utiliza cuando ninguno de los hermanos puede prestar una llave. En este caso se combinan:
+La fusión se utiliza cuando ninguno de los hermanos puede prestar una llave.
+
+En este caso se combinan:
 
 ```text
 nodo izquierdo + llave separadora del padre + nodo derecho
 ```
 
-La fusión provoca que el padre pierda una llave y un hijo. Si el padre también queda subocupado, la reparación continúa hacia arriba.
+Las llaves y los hijos del nodo derecho pasan al nodo izquierdo, mientras que el padre elimina la llave separadora y la referencia al nodo absorbido.
+
+La fusión puede provocar que el padre también quede subocupado, por lo que la reparación puede continuar hacia arriba.
 
 Cuando la raíz queda vacía y tiene un único hijo, ese hijo se convierte en la nueva raíz y la altura del árbol disminuye.
+
+Si la raíz queda sin llaves y sin hijos, el árbol vuelve a estar vacío.
+
+---
+
+## Casos de prueba
+
+La práctica incluye una secuencia principal para comprobar la correcta propagación de divisiones.
+
+Se insertan las llaves:
+
+```text
+20, 40, 10, 30, 50, 60, 70, 5, 15, 25, 35, 45
+```
+
+El resultado esperado es:
+
+```text
+Nivel 0: [45]
+Nivel 1: [15 | 30] [60]
+Nivel 2: [5 | 10] [20 | 25] [35 | 40] [50] [70]
+```
+
+También se verifican las búsquedas:
+
+```text
+buscar(35) -> FOUND
+buscar(99) -> NOT_FOUND
+```
+
+La inserción repetida de `35` no debe modificar el árbol.
+
+Posteriormente se realizan las eliminaciones:
+
+```text
+eliminar(25)
+eliminar(10)
+eliminar(70)
+eliminar(5)
+```
+
+El resultado final esperado es:
+
+```text
+Nivel 0: [30 | 45]
+Nivel 1: [15 | 20] [35 | 40] [50 | 60]
+```
+
+Finalmente:
+
+```text
+buscar(25) -> NOT_FOUND
+buscar(35) -> FOUND
+```
+
+La opción `5` del menú permite ejecutar automáticamente esta secuencia de prueba sin modificar el árbol utilizado por el usuario durante la ejecución normal del programa.
 
 ---
 
