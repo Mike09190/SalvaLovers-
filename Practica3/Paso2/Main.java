@@ -113,7 +113,7 @@ public class Main {
         
              System.out.println("\n Prueba 3: \n");
             Carpeta carpeta3 = new Carpeta("PDF 120"); // preparar
-            agregarArchivo(carpeta3, "txt", "pdf3", 120);
+            agregarArchivo(carpeta3, "pdf", "pdf3", 120);
             agregarArchivo(carpeta3, "txt", "txt3", 80);
             int total3 = obtenerTamanio(carpeta3); // ejecutar
             comprobar("Prueba3", 200, total3); // comprobar
@@ -121,7 +121,7 @@ public class Main {
         
              System.out.println("\n Prueba 4: \n");
             Carpeta carpeta4 = new Carpeta("PDF 120"); // preparar
-            agregarArchivo(carpeta4, "txt", "pdf3", 120);
+            agregarArchivo(carpeta4, "pdf", "pdf3", 120);
             agregarArchivo(carpeta4, "txt", "txt3", 80);
             Carpeta subcarpeta = new Carpeta("Subcarpeta");
              agregarArchivo(subcarpeta, "txt", "pdf4", 50);
@@ -132,7 +132,7 @@ public class Main {
         
             System.out.println("\n Prueba 5: \n");
             Carpeta carpeta5 = new Carpeta("Carpeta5"); // preparar
-             agregarArchivo(carpeta4, "txt", "pdf3", 0);
+             agregarArchivo(carpeta4, "txt", "vacio.txt", 0);
             int total5 = obtenerTamanio(carpeta5); // ejecutar
             comprobar("Carpeta5", 0, total5); // comprobar
         
